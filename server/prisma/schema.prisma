@@ -46,13 +46,14 @@ model Account {
 }
 
 model Transaction {
-  transaction_id String   @id @default(cuid())
-  user           User     @relation(fields: [userId], references: [user_id])
-  userId         String
-  acccount       Account  @relation(fields: [accountId], references: [account_id])
-  accountId      String
-  amount         Int
-  description    String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  transaction_id   String   @id @default(cuid())
+  user             User     @relation(fields: [userId], references: [user_id])
+  userId           String
+  acccount         Account  @relation(fields: [accountId], references: [account_id])
+  accountId        String
+  amount           Int
+  description      String
+  transaction_type String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
