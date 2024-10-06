@@ -1,4 +1,4 @@
 async function loadApp() {
-    await import('src/index.js');
+    await import('./src/index.js');
 }
 loadApp();
