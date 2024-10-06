@@ -5,8 +5,8 @@ import { registerAccount, loginAccount } from './auth.service.js';
 const router = Router();
 
 router.post("/register", validate, async (req, res) => {
+    const userData = req.body;
     try {
-        const userData = req.body;
         await registerAccount(userData);
 
         res.status(201).json({
@@ -15,19 +15,20 @@ router.post("/register", validate, async (req, res) => {
         });
     } catch (err) {
         return res.status(401).json({
-            status : 401,
-            message : err.message
+            status: 401,
+            message: err.message
         })
     }
 })
 
 router.post("/login", validate, async (req, res) => {
+    const userData = req.body;
     try {
-        const userData = req.body;
-        await loginAccount(userData);
+        const token = await loginAccount(userData);
 
         res.status(200).json({
             status: 200,
+            token,
             message: "account login successfully"
         });
     } catch (err) {
