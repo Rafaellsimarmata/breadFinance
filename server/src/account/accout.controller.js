@@ -6,7 +6,7 @@ const router = Router()
 router.get("/accounts", async (req, res) => {
     // this still not work yet 
     const { id } = req.user
-    // const id = "cm1vv326w0000m41xbob24hy9" //deleted soon when issue fix
+   
 
     try {
         const accounts = await getUserAccounts(id)
@@ -28,9 +28,9 @@ router.get("/accounts", async (req, res) => {
 })
 
 router.post("/account", async (req, res) => {
-    // this still not work yet 
+    // need fix!!!
     // const {id} = req.user  
-    const id = "cm1vv326w0000m41xbob24hy9"
+    const id = "cm20l5ts50000vaoax683t30v"
     const userData = req.body
     userData.userId = id
 
