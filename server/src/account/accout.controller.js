@@ -53,4 +53,39 @@ router.post("/account", async (req, res) => {
 
 })
 
+/**
+ * Mengambil semua akun berdasarkan ID pengguna.
+ * @param {string} userId - ID pengguna.
+ * @returns {Promise<Array>} - Daftar akun pengguna.
+ */
+const getAccountsByUserIdDb = async (userId) => {
+    const userAccounts = await prisma.account.findMany({
+      where: { userId },
+    });
+    return userAccounts;
+  };
+  
+  /**
+   * Menambahkan akun baru untuk pengguna tertentu.
+   * @param {string} userId - ID pengguna.
+   * @param {Object} accountData - Data akun baru.
+   * @returns {Promise<Object>} - Akun yang baru dibuat.
+   */
+  const addAccountByUserIdDb = async (userId, accountData) => {
+    const userAccountRes = await prisma.account.create({
+      data: {
+        userId: userId,
+        account_name: accountData.name,
+        account_type: accountData.type,
+        balance: accountData.balance,
+      },
+    });
+    return userAccountRes;
+  };
+  
+  export { getAccountsByUserIdDb, addAccountByUserIdDb };
+
+
+
+
 export default router
