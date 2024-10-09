@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { getUserAccounts, addUserAccount } from "./account.service.js";
+import { getUserAccounts, addUserAccount} from "./account.service.js";
+import {userUpdateAccount, userDeleteAccount} from "./account.repository.js";
 import authenticateToken from '../middleware/token.auth.js';
+
 
 const router = Router()
 
@@ -52,6 +54,54 @@ router.post("/account",authenticateToken, async (req, res) => {
     }
 
 })
+
+router.put("/account/:accId",authenticateToken, async (req, res) => {
+
+    const accountId = req.params.accId;
+    const accountData = req.body
+    try {
+        const accountDataUpdate = await userUpdateAccount(accountId, accountData)
+
+        res.status(200).json({
+            status: 200,
+            message: "User Accounts updated",
+            data: {
+                accountDataUpdate
+            }
+        })
+    } catch (err) {
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
+    }
+
+})
+
+router.delete("/account/:accId",authenticateToken, async (req, res) => {
+  
+    const accountId = req.params.accId;
+
+    try {
+        const accountDataDelete = await userDeleteAccount(accountId)
+
+        res.status(200).json({
+            status: 200,
+            message: "User Accounts Deleted",
+            data: {
+                accountDataDelete
+            }
+        })
+    } catch (err) {
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
+    }
+
+})
+
+
 
 
 
