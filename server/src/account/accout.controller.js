@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getUserAccounts, addUserAccount } from "./account.service.js";
+import authenticateToken from '../middleware/token.auth.js';
 
 const router = Router()
 
@@ -27,15 +28,13 @@ router.get("/accounts", async (req, res) => {
 
 })
 
-router.post("/account", async (req, res) => {
-    // need fix!!!
-    // const {id} = req.user  
-    const id = "cm20l5ts50000vaoax683t30v"
+router.post("/account",authenticateToken, async (req, res) => {
+    const { userId } = req.user;
     const userData = req.body
-    userData.userId = id
+    userData.userId = userId
 
     try {
-        const accountDataResult = await addUserAccount(id, userData)
+        const accountDataResult = await addUserAccount(userId, userData)
 
         res.status(200).json({
             status: 200,

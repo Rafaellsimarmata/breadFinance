@@ -27,7 +27,7 @@ const loginAccount = async (userData) => {
     const isMatchPassword = bcrypt.compare(user.password, userData.password)
     if (!isMatchPassword) throw new Error("Email or Password is incorrect!")
 
-    return createToken(user.email)
+    return createToken(user.user_id)
 }
 
 export { registerAccount, loginAccount }
