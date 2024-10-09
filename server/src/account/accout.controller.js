@@ -4,13 +4,14 @@ import authenticateToken from '../middleware/token.auth.js';
 
 const router = Router()
 
-router.get("/accounts", async (req, res) => {
-    // this still not work yet 
-    const { id } = req.user
-   
+router.get("/accounts", authenticateToken, async (req, res) => {
+
+    const { userId } = req.user;
+    const userData = req.body
+    userData.userId = userId
 
     try {
-        const accounts = await getUserAccounts(id)
+        const accounts = await getUserAccounts(userId)
 
         res.status(200).json({
             status: 200,
