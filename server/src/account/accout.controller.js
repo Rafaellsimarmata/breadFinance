@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { getUserAccounts, addUserAccount} from "./account.service.js";
-import {userUpdateAccount, userDeleteAccount} from "./account.repository.js";
+import { getUserAccounts, addUserAccount, userUpdateAccount, userDeleteAccount} from "./account.service.js";
 import authenticateToken from '../middleware/token.auth.js';
 
 

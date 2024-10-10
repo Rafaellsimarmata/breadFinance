@@ -19,7 +19,7 @@ const addAccountByUserIdDb = (userId, accountData) => {
     return userAccountRes
 }
 
-const userUpdateAccount = (accountId, accountData) => {
+const userUpdateAccountDb = (accountId, accountData) => {
     const userAccountUpdate = prisma.account.updateMany({
         where: {
             account_id: accountId
@@ -36,12 +36,12 @@ const userUpdateAccount = (accountId, accountData) => {
 
 
 
-const userDeleteAccount = (accountId) => {
-    prisma.account.delete({
+const userDeleteAccountDb = (accountId) => {
+   return prisma.account.delete({
         where: {
             account_id: accountId,
         }
     })
 }
 
-export { getAccountsByUserIdDb, addAccountByUserIdDb, userUpdateAccount, userDeleteAccount }
+export { getAccountsByUserIdDb, addAccountByUserIdDb, userUpdateAccountDb, userDeleteAccountDb }

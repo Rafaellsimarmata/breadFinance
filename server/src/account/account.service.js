@@ -1,4 +1,4 @@
-import {getAccountsByUserIdDb, addAccountByUserIdDb} from "./account.repository.js";
+import {getAccountsByUserIdDb, addAccountByUserIdDb, userUpdateAccountDb, userDeleteAccountDb} from "./account.repository.js";
 
 const getUserAccounts = async (userId) => {
     const userAccounts = await getAccountsByUserIdDb(userId)
@@ -12,6 +12,18 @@ const addUserAccount = async (userId, accountData) => {
     return accountDataResult
 }
 
+const userUpdateAccount = async (accountId, accountData) => { 
+    const accountDataResult = await userUpdateAccountDb(accountId, accountData)
+    if(!accountDataResult) throw new Error("failed updating account")
+    return accountDataResult
+}
 
 
-export {getUserAccounts, addUserAccount}
+const userDeleteAccount = async (accountId) => { 
+    const accountDataResult = await userDeleteAccountDb(accountId)
+    if(!accountDataResult) throw new Error("failed deleting account")
+    return accountDataResult
+}
+
+
+export {getUserAccounts, addUserAccount, userUpdateAccount, userDeleteAccount}
