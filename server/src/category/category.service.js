@@ -2,7 +2,7 @@ import {getCategoriesByUserIdDb, addCategoryByUserIdDb, userUpdateCategoryDb, us
 
 const getUserCategories = async (userId) => {
     const userCategories = await getCategoriesByUserIdDb(userId)
-    if (!userCategories) throw new Error("The user doesn't have any categories!")
+    if (!userCategories) throw new Error("The user doesn't have any category!")
     return userCategories
 }
 

@@ -1,14 +1,51 @@
 import prisma from "../config/db.config.js"
 
 
-const addCategoryByUserIdDb = (userId, accountData) => {
-    const userAccountRes = prisma.account.create({
+const addCategoryByUserIdDb = (userId, categoryData) => {
+    const userCategoryRes = prisma.category.create({
         data: {
             userId: userId,
-            account_name: accountData.name,
-            account_type: accountData.type,
-            balance: accountData.balance,
+            category_name: categoryData.category_name,
+          
         }
     })
-    return userAccountRes
+    return userCategoryRes
 }
+
+
+const getCategoriesByUserIdDb = (userId) => {
+    const userCategories = prisma.category.findMany({
+        where: { userId }
+    })
+    return userCategories
+}
+
+const userUpdateCategoryDb = (categoryId, categoryData) => {
+    const userCategoryUpdate = prisma.category.updateMany({
+        where: {
+            category_id: categoryId
+        },
+        data: {  
+            category_name: categoryData.name,
+       
+        }
+    })
+
+    return userCategoryUpdate
+}
+
+
+
+const userDeleteCategoryDb = (categoryId) => {
+   return prisma.category.delete({
+        where: {
+            category_id: categoryId,
+        }
+
+    })
+}
+
+
+
+
+export {getCategoriesByUserIdDb, addCategoryByUserIdDb, userUpdateCategoryDb, userDeleteCategoryDb}
