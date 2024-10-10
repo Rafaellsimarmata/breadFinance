@@ -19,4 +19,29 @@ const addAccountByUserIdDb = (userId, accountData) => {
     return userAccountRes
 }
 
-export { getAccountsByUserIdDb, addAccountByUserIdDb }
+const userUpdateAccount = (accountId, accountData) => {
+    const userAccountUpdate = prisma.account.updateMany({
+        where: {
+            account_id: accountId
+        },
+        data: {  
+            account_name: accountData.name,
+            account_type: accountData.type,
+            balance: accountData.balance,
+        }
+    })
+
+    return userAccountUpdate
+}
+
+
+
+const userDeleteAccount = (accountId) => {
+    prisma.account.delete({
+        where: {
+            account_id: accountId,
+        }
+    })
+}
+
+export { getAccountsByUserIdDb, addAccountByUserIdDb, userUpdateAccount, userDeleteAccount }

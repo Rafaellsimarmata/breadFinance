@@ -1,15 +1,19 @@
 import { Router } from 'express';
-import { getUserAccounts, addUserAccount } from "./account.service.js";
+import { getUserAccounts, addUserAccount} from "./account.service.js";
+import {userUpdateAccount, userDeleteAccount} from "./account.repository.js";
+import authenticateToken from '../middleware/token.auth.js';
+
 
 const router = Router()
 
-router.get("/accounts", async (req, res) => {
-    // this still not work yet 
-    const { id } = req.user
-    // const id = "cm1vv326w0000m41xbob24hy9" //deleted soon when issue fix
+router.get("/accounts", authenticateToken, async (req, res) => {
+
+    const { userId } = req.user;
+    const userData = req.body
+    userData.userId = userId
 
     try {
-        const accounts = await getUserAccounts(id)
+        const accounts = await getUserAccounts(userId)
 
         res.status(200).json({
             status: 200,
@@ -27,15 +31,13 @@ router.get("/accounts", async (req, res) => {
 
 })
 
-router.post("/account", async (req, res) => {
-    // this still not work yet 
-    // const {id} = req.user  
-    const id = "cm1vv326w0000m41xbob24hy9"
+router.post("/account",authenticateToken, async (req, res) => {
+    const { userId } = req.user;
     const userData = req.body
-    userData.userId = id
+    userData.userId = userId
 
     try {
-        const accountDataResult = await addUserAccount(id, userData)
+        const accountDataResult = await addUserAccount(userId, userData)
 
         res.status(200).json({
             status: 200,
@@ -52,5 +54,57 @@ router.post("/account", async (req, res) => {
     }
 
 })
+
+router.put("/account/:accId",authenticateToken, async (req, res) => {
+
+    const accountId = req.params.accId;
+    const accountData = req.body
+    try {
+        const accountDataUpdate = await userUpdateAccount(accountId, accountData)
+
+        res.status(200).json({
+            status: 200,
+            message: "User Accounts updated",
+            data: {
+                accountDataUpdate
+            }
+        })
+    } catch (err) {
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
+    }
+
+})
+
+router.delete("/account/:accId",authenticateToken, async (req, res) => {
+  
+    const accountId = req.params.accId;
+
+    try {
+        const accountDataDelete = await userDeleteAccount(accountId)
+
+        res.status(200).json({
+            status: 200,
+            message: "User Accounts Deleted",
+            data: {
+                accountDataDelete
+            }
+        })
+    } catch (err) {
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
+    }
+
+})
+
+
+
+
+
+
 
 export default router
