@@ -1,7 +1,7 @@
-import {getCategorysByUserIdDb, addCategoryByUserIdDb, userUpdateCategoryDb, userDeleteCategoryDb} from "./category.repository.js";
+import {getCategoriesByUserIdDb, addCategoryByUserIdDb, userUpdateCategoryDb, userDeleteCategoryDb} from "./category.repository.js";
 
 const getUserCategories = async (userId) => {
-    const userCategories = await getCategorysByUserIdDb(userId)
+    const userCategories = await getCategoriesByUserIdDb(userId)
     if (!userCategories) throw new Error("The user doesn't have any categories!")
     return userCategories
 }
@@ -26,4 +26,4 @@ const userDeleteCategory = async (categoryId) => {
 }
 
 
-export {getUserCategorys, addUserCategory, userUpdateCategory, userDeleteCategory}
+export {getUserCategories, addUserCategory, userUpdateCategory, userDeleteCategory}
