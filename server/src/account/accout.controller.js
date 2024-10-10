@@ -3,7 +3,6 @@ import { getUserAccounts, addUserAccount} from "./account.service.js";
 import {userUpdateAccount, userDeleteAccount} from "./account.repository.js";
 import authenticateToken from '../middleware/token.auth.js';
 
-
 const router = Router()
 
 router.get("/accounts", authenticateToken, async (req, res) => {
@@ -39,8 +38,8 @@ router.post("/account",authenticateToken, async (req, res) => {
     try {
         const accountDataResult = await addUserAccount(userId, userData)
 
-        res.status(200).json({
-            status: 200,
+        res.status(201).json({
+            status: 201,
             message: "User Accounts added successfully",
             data: {
                 accountDataResult
@@ -62,8 +61,8 @@ router.put("/account/:accId",authenticateToken, async (req, res) => {
     try {
         const accountDataUpdate = await userUpdateAccount(accountId, accountData)
 
-        res.status(200).json({
-            status: 200,
+        res.status(201).json({
+            status: 201,
             message: "User Accounts updated",
             data: {
                 accountDataUpdate

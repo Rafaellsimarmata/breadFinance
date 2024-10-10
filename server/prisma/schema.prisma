@@ -27,10 +27,11 @@ model User {
 }
 
 model Category {
-  category_id   Int    @id @default(autoincrement())
+  category_id   String        @id @default(cuid())
   category_name String
-  user          User   @relation(fields: [userId], references: [user_id])
+  user          User          @relation(fields: [userId], references: [user_id])
   userId        String
+  Transaction   Transaction[]
 }
 
 model Account {
@@ -51,6 +52,8 @@ model Transaction {
   userId           String
   acccount         Account  @relation(fields: [accountId], references: [account_id])
   accountId        String
+  category         Category @relation(fields: [categoryId], references: [category_id])
+  categoryId       String
   amount           Int
   description      String
   transaction_type String
