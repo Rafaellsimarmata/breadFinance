@@ -7,7 +7,7 @@ import accountController from "./account/accout.controller.js"
 // import unknownEndPoint from './middleware/unknownEndpoint.js';
 const app = express()
 
-const port = 3000
+const port = 2000
 dotenv.config()
 
 app.use(express.json())

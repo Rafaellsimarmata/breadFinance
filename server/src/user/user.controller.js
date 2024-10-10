@@ -1,18 +1,18 @@
 import { Router } from 'express';
 import getUserDataById from './user.service.js';
-
+import authenticateToken from '../middleware/token.auth.js';
 const router = Router();
 
-router.get("/profile", async (req, res) => {
+router.get("/profile", authenticateToken, async (req, res) => {
     console.log("Hello World")
 
     try {
         // the req.user is to get user id that saved in localStorage
         // later this will return json that contain user non-sensitived data
         // but this still doesnt work
-        const { id } = req.user;
+        const { userId } = req.user;
         // const id = "cm1vv326w0000m41xbob24hy9" // deleted soon 
-        const userRawData = await getUserDataById(id)
+        const userRawData = await getUserDataById(userId)
 
         res.status(200).json({
             status: 200,
