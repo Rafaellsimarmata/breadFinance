@@ -17,12 +17,12 @@ const Dashboard = () => {
                 'headers': {
                 'Authorization': 'Bearer ' + token
             }})
-            console.log(response.status);
+            console.log(response.data.message);
             setName(response.data.userData.userName);
         } 
         catch (error) 
         {
-            console.log(error.response?.status)
+            console.log(error.response?.message)
         }
     }
 
