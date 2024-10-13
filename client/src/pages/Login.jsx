@@ -17,8 +17,8 @@ const Login = () => {
         email: email,
         password: password
       });
+      console.log(data.message);
       setMessage(data.message);
-      console.log(data.status)
       const newToken = data.token;
       Cookies.set('token', newToken, {expires: 1, secure: true});
 
@@ -33,7 +33,7 @@ const Login = () => {
     catch (error)
     {
       console.log(error.response?.data);
-      setMessage(error.response?.data);
+      setMessage(error.response?.data.message);
     };
   }
 
