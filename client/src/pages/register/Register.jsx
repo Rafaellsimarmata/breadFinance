@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [userName, setUserName] = useState('');
@@ -7,8 +8,9 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  const Register = async(e) => {
+  const [message, setMessage] = useState('');
+  
+  const sendRegister = async(e) => {
     e.preventDefault();
     try
     {
@@ -20,15 +22,18 @@ const Register = () => {
             password: password
           });
         console.log(data);
+        setMessage(data.message);
       }
       else
       {
-        console.log("Password does not match.")
+        console.log("Password does not match");
+        setMessage("Password does not match");
       }
     }
     catch (error)
     {
-      console.log(error.response?.data)
+      console.log(error.response?.data);
+      setMessage(error.response?.data.message);
     };
   }
 
@@ -38,7 +43,8 @@ const Register = () => {
         <div className="container">
           <div className="columns is-centered">
             <div className="column is-4-deskstop">
-                <form onSubmit={Register} className="box" style={{ maxWidth: "400px", margin: "0 auto" }}>
+              <p className='has-text-centered'>{message}</p>
+                <form onSubmit={sendRegister} className="box" style={{ maxWidth: "400px", margin: "0 auto" }}>
                     <div className="field mt-5">
                         <label className="label">Name</label>
                         <div className="controls">
