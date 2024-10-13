@@ -9,6 +9,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const nav = useNavigate();
   
   const sendRegister = async(e) => {
     e.preventDefault();
@@ -34,6 +35,8 @@ const Register = () => {
     {
       console.log(error.response?.data);
       setMessage(error.response?.data.message);
+      nav("/login")
+
     };
   }
 

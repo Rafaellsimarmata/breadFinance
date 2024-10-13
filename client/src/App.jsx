@@ -1,17 +1,28 @@
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
-  login,
-  register
+  Dashboard,
+  Login,
+  Register
 } from './pages/route.js';
+
+const Layout = () => {
+  return (
+    <>
+      <p>Hello</p>
+    </>
+  )
+};
 
 function App() {
   return (
-    <>
-      <Route element={<Layout />}>
-        <Route path="/login" element={<loginogin />} />
-        <Route path="/register" element={<register />} />
-      </Route>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/Login" element={<Login />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/Dasboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
