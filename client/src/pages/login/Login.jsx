@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const nav = useNavigate();
 
   const sendLogin = async(e) => {
     e.preventDefault();
@@ -16,6 +18,7 @@ const Login = () => {
       });
       console.log(data);
       setMessage(data.message);
+      nav("/Dasboard");
     }
     catch (error)
     {
