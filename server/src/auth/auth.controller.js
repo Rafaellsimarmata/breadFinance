@@ -25,6 +25,7 @@ router.post("/login", validate, async (req, res) => {
     const userData = req.body;
     try {
         const token = await loginAccount(userData);
+        console.log(token);
 
         res.status(200).json({
             status: 200,
