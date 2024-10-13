@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,14 +17,23 @@ const Login = () => {
         email: email,
         password: password
       });
-      console.log(data);
       setMessage(data.message);
-      nav("/Dasboard");
+      console.log(data.status)
+      const newToken = data.token;
+      Cookies.set('token', newToken, {expires: 1, secure: true});
+
+      setTimeout(() => {
+        setMessage("Redirecting...")
+      }, 1000)
+
+      setTimeout(() => {
+        nav("/dashboard");
+      }, 3000);
     }
     catch (error)
     {
       console.log(error.response?.data);
-      setMessage(error.response?.data.message);
+      setMessage(error.response?.data);
     };
   }
 
