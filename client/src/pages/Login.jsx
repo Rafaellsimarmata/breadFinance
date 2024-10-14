@@ -42,7 +42,7 @@ const Login = () => {
       <div className="hero-body">
         <div className="container">
           <div className="columns is-centered">
-            <div className="column is-4-deskstop">
+            <div className="column is-4-desktop">
               <p className='has-text-centered'>{message}</p>
                 <form onSubmit={sendLogin} className="box" style={{ maxWidth: "400px", margin: "0 auto" }}>
                     <div className="field mt-5">
