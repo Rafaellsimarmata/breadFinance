@@ -63,10 +63,10 @@ model Transaction {
 }
 
 model Goal {
-  goal_id  String   @id @default(cuid())
-  user             User     @relation(fields: [userId], references: [user_id])
-  userId           String
-  amount           Int
-  description      String
-  createdAt    DateTime      @default(now())
+  goal_id     String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [user_id])
+  userId      String
+  amount      Int
+  description String
+  createdAt   DateTime @default(now())
 }
