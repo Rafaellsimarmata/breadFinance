@@ -24,6 +24,14 @@ const Register = () => {
           });
         console.log(data);
         setMessage(data.message);
+
+        setTimeout(() => {
+          setMessage("Redirecting to login page...")
+        }, 1000)
+  
+        setTimeout(() => {
+          nav("/login");
+        }, 3000);
       }
       else
       {
@@ -35,8 +43,6 @@ const Register = () => {
     {
       console.log(error.response?.data);
       setMessage(error.response?.data.message);
-      nav("/login")
-
     };
   }
 
