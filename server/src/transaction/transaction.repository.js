@@ -89,6 +89,7 @@ const createUserTransactionsDb = async (userId, transactionData) => {
             transaction_type : transactionData.transactionType,
         }
     })
+    
     return transactionDataResult
 }
 
