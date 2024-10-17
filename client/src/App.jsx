@@ -4,7 +4,10 @@ import {
   Home,
   Login,
   Register,
-  Accounts
+  Accounts,
+  AddAccount,
+  LogOut,
+  Profile
 } from './pages/route.js';
 
 function App() {
@@ -15,7 +18,10 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
         <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/accounts" element={<Accounts />} />
+        <Route path="/Accounts" element={<Accounts />} />
+        <Route path='/Add-Account' element={<AddAccount />}></Route>
+        <Route path='/LogOut' element={<LogOut />}></Route>
+        <Route path='/Profile' element={<Profile />}></Route>
       </Routes>
     </BrowserRouter>
   )

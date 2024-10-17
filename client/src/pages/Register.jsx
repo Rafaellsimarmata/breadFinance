@@ -31,7 +31,7 @@ const Register = () => {
   
         setTimeout(() => {
           nav("/login");
-        }, 3000);
+        }, 2000);
       }
       else
       {
