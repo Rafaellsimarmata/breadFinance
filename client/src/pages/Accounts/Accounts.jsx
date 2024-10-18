@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import axios from "axios";
 import './Accounts.css'; 
+import { useNavigate } from "react-router-dom";
 
 const Accounts = () => {
     const [accounts, setAccounts] = useState([]);
+    const nav = useNavigate();
 
     useEffect(() => {
         accountsData()
@@ -39,10 +41,9 @@ const Accounts = () => {
                     </div>
                 </div>
                 <div className="controls">
-                    <button>Add Accounts</button>
-                    <button>File Import</button>
-                    <button>Undo</button>
-                    <button>Redo</button>
+                    <button type="button" onClick={() => nav("/add-account")}>Add Accounts</button>
+                    <button type="button" onClick={() => nav("/dashboard")}>Dashboard</button>
+                    <button type="button" onClick={() => nav("/logout")}>Log Out</button>
                 </div>
             </header>
     
@@ -64,8 +65,8 @@ const Accounts = () => {
                             <td>{account.account_type}</td>
                             <td>{account.balance}</td>
                             <td>
-                                <button>Delete</button>
-                                <button>Detail</button>
+                                <button type="button" className="data-controls">Details</button>
+                                <button type="button" className="data-controls button-delete">Delete</button>
                             </td>
                         </tr>
                     ))}

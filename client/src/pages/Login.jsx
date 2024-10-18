@@ -28,7 +28,7 @@ const Login = () => {
 
       setTimeout(() => {
         nav("/dashboard");
-      }, 3000);
+      }, 2000);
     }
     catch (error)
     {
@@ -74,7 +74,7 @@ const Login = () => {
                   </div>
               </form>
               <p className="mt-4 text-center text-gray-600">
-                  Didn't have an account?{" "}
+                  No account?{" "}
                   <span
                       className="text-blue-500 hover:underline cursor-pointer"
                       onClick={() => nav("/register")}
