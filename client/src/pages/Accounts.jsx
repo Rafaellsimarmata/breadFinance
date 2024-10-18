@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import axios from "axios";
-import './Accounts.css'; 
 import { useNavigate } from "react-router-dom";
 
 const Accounts = () => {
