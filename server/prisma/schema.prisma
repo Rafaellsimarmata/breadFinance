@@ -42,6 +42,7 @@ model Account {
   account_name String
   account_type String
   Transaction  Transaction[]
+  Goal         Goal[]
   balance      Int           @default(0)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -58,15 +59,18 @@ model Transaction {
   amount           Int
   description      String
   transaction_type String
+  Goal             Goal[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }
 
 model Goal {
-  goal_id     String   @id @default(cuid())
-  user        User     @relation(fields: [userId], references: [user_id])
+  goal_id     String        @id @default(cuid())
+  user        User          @relation(fields: [userId], references: [user_id])
   userId      String
   amount      Int
   description String
-  createdAt   DateTime @default(now())
+  Account     Account[]
+  Transaction Transaction[]
+  createdAt   DateTime      @default(now())
 }
