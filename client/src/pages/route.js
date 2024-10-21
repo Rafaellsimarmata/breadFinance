@@ -8,3 +8,6 @@ export {default as LogOut} from "./LogOut";
 export {default as Profile} from "./Profile";
 export {default as Transactions} from "./Transactions";
 export {default as AddTransaction} from "./AddTransaction";
+export {default as Categories} from "./Categories";
+export {default as AddCategory} from "./AddCategory";
+export {default as AccountDetails} from "./AccountDetails";

@@ -6,6 +6,9 @@ const LogOut = () => {
     const nav = useNavigate();
 
     Cookies.remove('token');
+    Cookies.remove('account_name');
+    Cookies.remove('account_id');
+    Cookies.remove('account_balance');
 
     useEffect(() => {
         redirect();

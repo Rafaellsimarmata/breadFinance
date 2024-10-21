@@ -9,7 +9,10 @@ import {
   LogOut,
   Profile,
   Transactions,
-  AddTransaction
+  AddTransaction,
+  Categories,
+  AddCategory,
+  AccountDetails
 } from './pages/route.js';
 
 function App() {
@@ -26,6 +29,9 @@ function App() {
         <Route path='/Profile' element={<Profile />}></Route>
         <Route path='/Transactions' element={<Transactions />} ></Route>
         <Route path='/Add-Transaction' element={<AddTransaction />} ></Route>
+        <Route path='/Categories' element={<Categories />}></Route>
+        <Route path='/Add-Category' element={<AddCategory />} ></Route>
+        <Route path='/Account-Details'element={<AccountDetails />}></Route>
       </Routes>
     </BrowserRouter>
   )

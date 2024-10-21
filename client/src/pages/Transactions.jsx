@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
 
 const Transactions = () => {
-    const [transactions, setTransactions] = useState('');
+    const [transactions, setTransactions] = useState([]);
     const nav = useNavigate();
 
     useEffect(() => {
         fetchTransactions();
-    })
+    }, []);
 
     const fetchTransactions = async() => {
         try {
@@ -23,13 +23,28 @@ const Transactions = () => {
                 }
             )
             console.log(response);
-            setTransactions(response.data.userTransactionsData);
+            // console.log(response.data.data.userTransactionsData);
+            setTransactions(response.data.data.userTransactionsData);
 
         } 
         catch (error) {
             console.log(error.response?.message);
         }
     }
+    
+    const getTotalBalance = () => {
+        return transactions.reduce((sum, transactions) => {
+          if (transactions.transaction_type === 'Inbound') {
+            return sum + (transactions.amount || 0);
+          } 
+          else if (transactions.transaction_type === 'Outbound') {
+            return sum - (transactions.amount || 0);
+          } 
+          else {
+            return sum;
+          }
+        }, 0);
+      };
 
     return (
         <>
@@ -40,7 +55,7 @@ const Transactions = () => {
                     </div>
                     <div className="balance-info text-center mb-4">
                         <div className="balance-item">
-                            <h2 className=" text-green-400 text-2xl font-semibold">$12,312,312.00</h2>
+                            <h2 className=" text-green-400 text-2xl font-semibold">IDR {getTotalBalance()}</h2>
                             <p className="text-gray-600">Total Balance</p>
                         </div>
                     </div>
@@ -54,10 +69,10 @@ const Transactions = () => {
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/dashboard")} 
+                            onClick={() => nav("/account-details")} 
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
                         >
-                            Dashboard
+                            Account Details
                         </button>
                         <button 
                             type="button" 
@@ -81,12 +96,12 @@ const Transactions = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {transactions.map((transactions) => (
-                                <tr key={transactions.id} className="border-t">
+                            {transactions.map((transactions) => (
+                                <tr key={transactions.transaction_id} className="border-t">
                                     <td className="px-4 py-2">{transactions.createdAt}</td>
-                                    <td className="px-4 py-2">{transactions.account_name}</td>
-                                    <td className="px-4 py-2">{transactions.account_type}</td>
-                                    <td className="px-4 py-2">{transactions.balance}</td>
+                                    <td className="px-4 py-2">{transactions.description}</td>
+                                    <td className="px-4 py-2">{transactions.transaction_type}</td>
+                                    <td className="px-4 py-2">{transactions.amount}</td>
                                     <td className="px-4 py-2">
                                         <button 
                                             type="button" 
@@ -102,7 +117,7 @@ const Transactions = () => {
                                         </button>
                                     </td>
                                 </tr>
-                            ))} */}
+                            ))}
                         </tbody>
                     </table>
                 </div>

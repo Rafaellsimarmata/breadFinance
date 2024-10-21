@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -8,15 +8,44 @@ const AddTransactions = () => {
   const [transactionType, setTransactionType] = useState('');
   const [transactionAmount, setTransactionAmount] = useState('');
   const [message, setMessage] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
   const nav = useNavigate();
-  
-  const newAccount = async(e) => {
+  const token = Cookies.get('token');
+  const account_id = Cookies.get('account_id');
+
+  useEffect(() => {
+    fetchAccountCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+  const fetchAccountCategories = async() => {
+    try 
+    {
+        const response = await axios.get('https://bread-finance-api.vercel.app/api/categories', 
+            {
+                'headers': {
+                'Authorization': 'Bearer ' + token
+                }
+            }
+        )
+        console.log(response.data.data.categories);
+        setCategories(response.data.data.categories);
+    } 
+    catch (error) 
+    {
+        console.log(error);
+    }
+  }
+
+  const newTransaction = async(e) => {
     e.preventDefault();
     try
     {
-        const token = Cookies.get('token');
         const response = await axios.post('https://bread-finance-api.vercel.app/api/transaction', 
         {
+            accountId: account_id,
+            categoryId: selectedCategory,
             description: description,
             transactionType: transactionType,
             amount: parseInt(transactionAmount)
@@ -40,7 +69,7 @@ const AddTransactions = () => {
     }
     catch (error)
     {
-      console.log(error.response?.data);
+      console.log(error.response?.data.message);
       setMessage(error.response?.data.message);
     };
   }
@@ -55,7 +84,7 @@ const AddTransactions = () => {
                 <p className="text-red-500 mb-4">{message}</p>
 
                 {/* Form */}
-                <form onSubmit={newAccount} className="space-y-6">
+                <form onSubmit={newTransaction} className="space-y-6">
                     <div>
                         <label className="block text-left text-gray-700 font-medium mb-2">Description</label>
                         <input
@@ -68,14 +97,24 @@ const AddTransactions = () => {
                     </div>
 
                     <div>
+                        <label className="block text-left text-gray-700 font-medium mb-2">Category</label>
+                        <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e => {setSelectedCategory(e.target.value)})}>
+                            <option value="">--Please choose a category--</option>
+                                {categories.map((option) => (
+                                    <option key={option.category_id} value={option.category_id}>
+                                        {option.category_name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+
+                    <div>
                         <label className="block text-left text-gray-700 font-medium mb-2">Transaction Type</label>
-                        <input
-                            type="text"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Type"
-                            value={transactionType}
-                            onChange={(e) => setTransactionType(e.target.value)}
-                        />
+                        <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e) => setTransactionType(e.target.value)}>
+                            <option value="">--Please choose a transaction type--</option>
+                            <option value="Inbound">Inbound</option>
+                            <option value="Outbound">Outbound</option>
+                        </select>
                     </div>
 
                     <div>

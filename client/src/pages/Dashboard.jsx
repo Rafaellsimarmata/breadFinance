@@ -78,7 +78,7 @@ const Dashboard = () => {
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/transactions")} 
+                            onClick={() => nav("/accounts")} 
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
                         >
                             View Transactions
