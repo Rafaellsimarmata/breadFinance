@@ -81,7 +81,7 @@ const Transactions = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {transactions.map((transactions) => (
+                            {/* {transactions.map((transactions) => (
                                 <tr key={transactions.id} className="border-t">
                                     <td className="px-4 py-2">{transactions.createdAt}</td>
                                     <td className="px-4 py-2">{transactions.account_name}</td>
@@ -102,7 +102,7 @@ const Transactions = () => {
                                         </button>
                                     </td>
                                 </tr>
-                            ))}
+                            ))} */}
                         </tbody>
                     </table>
                 </div>
