@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const AddAccount = () => {
-  const [accountName, setAccountName] = useState('');
-  const [accountType, setAccountType] = useState('');
-  const [accountBalance, setAccountBalance] = useState('');
+const AddTransactions = () => {
+  const [description, setDescription] = useState('');
+  const [transactionType, setTransactionType] = useState('');
+  const [transactionAmount, setTransactionAmount] = useState('');
   const [message, setMessage] = useState('');
   const nav = useNavigate();
   
@@ -15,11 +15,11 @@ const AddAccount = () => {
     try
     {
         const token = Cookies.get('token');
-        const response = await axios.post('https://bread-finance-api.vercel.app/api/account', 
+        const response = await axios.post('https://bread-finance-api.vercel.app/api/transaction', 
         {
-            name: accountName,
-            type: accountType,
-            balance: parseInt(accountBalance)
+            description: description,
+            transactionType: transactionType,
+            amount: parseInt(transactionAmount)
         },
         {
             'headers':
@@ -31,11 +31,11 @@ const AddAccount = () => {
         setMessage(response.data.message);
 
         setTimeout(() => {
-            setMessage("Redirecting to accounts...")
+            setMessage("Redirecting to all transactions...")
         }, 1000);
 
         setTimeout(() => {
-            nav("/accounts")
+            nav("/transactions")
         }, 2000);
     }
     catch (error)
@@ -49,7 +49,7 @@ const AddAccount = () => {
     <>
         <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
-                <h1 className="text-4xl font-bold mb-6">Add Account</h1>
+                <h1 className="text-4xl font-bold mb-6">Add Transaction</h1>
 
                 {/* Display message */}
                 <p className="text-red-500 mb-4">{message}</p>
@@ -57,35 +57,35 @@ const AddAccount = () => {
                 {/* Form */}
                 <form onSubmit={newAccount} className="space-y-6">
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Name</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2">Description</label>
                         <input
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Name"
-                            value={accountName}
-                            onChange={(e) => setAccountName(e.target.value)}
+                            placeholder="Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Type</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2">Transaction Type</label>
                         <input
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             placeholder="Type"
-                            value={accountType}
-                            onChange={(e) => setAccountType(e.target.value)}
+                            value={transactionType}
+                            onChange={(e) => setTransactionType(e.target.value)}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Balance</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2">Amount</label>
                         <input
                             type="number"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Balance"
-                            value={accountBalance}
-                            onChange={(e) => setAccountBalance(e.target.value)}
+                            placeholder="Amount"
+                            value={transactionAmount}
+                            onChange={(e) => setTransactionAmount(e.target.value)}
                         />
                     </div>
 
@@ -94,7 +94,7 @@ const AddAccount = () => {
                             type="submit"
                             className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
                         >
-                            Register
+                            Add
                         </button>
                     </div>
                 </form>
@@ -103,7 +103,7 @@ const AddAccount = () => {
                 <p className="mt-4 text-gray-600">
                     <span
                         className="text-blue-500 hover:underline cursor-pointer"
-                        onClick={() => nav("/accounts")}
+                        onClick={() => nav("/transactions")}
                     >
                         Cancel
                     </span>
@@ -114,4 +114,4 @@ const AddAccount = () => {
   )
 }
 
-export default AddAccount
+export default AddTransactions

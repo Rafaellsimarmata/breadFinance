@@ -16,9 +16,11 @@ const Dashboard = () => {
         {
             const token = Cookies.get('token')
             const response = await axios.get('https://bread-finance-api.vercel.app/api/profile', {
-                'headers': {
+                'headers': 
+                {
                 'Authorization': 'Bearer ' + token
-            }});
+                }
+            });
             console.log(response.data.message);
             setName(response.data.userData.userName);
         } 
@@ -36,13 +38,6 @@ const Dashboard = () => {
                     <div className="flex justify-between items-center">
                         <h2 className="mx-5 mt-2 font-semibold text-lg">Welcome Back, {name}</h2>
                         <div>
-                            <button 
-                                type="button" 
-                                onClick={() => nav("/accounts")} 
-                                className="w-24 mx-1 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                            >
-                                Accounts
-                            </button>
                             <button 
                                 type="button" 
                                 onClick={() => nav("/profile")} 
@@ -83,10 +78,10 @@ const Dashboard = () => {
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/add-account")} 
-                            className="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors w-48"
+                            onClick={() => nav("/transactions")} 
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
                         >
-                            Add Account
+                            View Transactions
                         </button>
                     </div>
                 </div>
