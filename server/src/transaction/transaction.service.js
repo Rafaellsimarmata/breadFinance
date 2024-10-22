@@ -1,12 +1,15 @@
 import {
     findTransactionsByUserIdDb,
-    findUserTransactionsByAccountIdDb,
-    findUserTransactionsByCategoryIdDb,
-    findUserTransactionsByCreatedTimeDb,
-    findUserTransactionsByTypeDb,
-    findUserTransactionsByFilters,
-    findUserTransactionsByDescDb,
-    createUserTransactionsDb
+    // findUserTransactionsByAccountIdDb,
+    // findUserTransactionsByCategoryIdDb,
+    // findUserTransactionsByCreatedTimeDb,
+    // findUserTransactionsByTypeDb,
+    // findUserTransactionsByFilters,
+    // findUserTransactionsByDescDb,
+    createUserTransactionsDb,
+    findUserTransactionsByFiltersDb,
+
+
 } from "./transaction.repository.js"
 
 const addUserTransaction = async (userId, transactionData) => {
@@ -24,21 +27,26 @@ const getUserTransactions = async (userId) => {
     return userTransactions
 }
 
-const getUserTransactionsByDesc = async (userId, desc) => {
-    const userTransactions = await findUserTransactionsByDescDb(userId, desc)
-    if (!userTransactions) throw new Error("failed fetching user transactions data!")
-    return userTransactions
-}
+// const getUserTransactionsByDesc = async (userId, desc) => {
+//     const userTransactions = await findUserTransactionsByDescDb(userId, desc)
+//     if (!userTransactions) throw new Error("failed fetching user transactions data!")
+//     return userTransactions
+// }
 
-const filterUserTransactions = async (userId, filterData) => {
-    const userTransactions = await findUserTransactionsByFilters(userId, filterData)
-    if (!userTransactions) throw new Error("failed fetching user transactions data!")
-    return userTransactions
-}
+
+// TRY FILTER BY PARAM
+const filterUserTransactions = async (userId, filters) => {
+    const filteredTransactions = await findUserTransactionsByFiltersDb(userId, filters);
+    if (!filteredTransactions) throw new Error("failed fetching filtered transactions data!");
+    return filteredTransactions;
+};
+
+
+
 
 export {
     getUserTransactions,
-    getUserTransactionsByDesc,
+    // getUserTransactionsByDesc,
     filterUserTransactions,
-    addUserTransaction
+    addUserTransaction,
 }

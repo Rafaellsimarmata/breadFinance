@@ -1,15 +1,18 @@
 import { Router } from 'express';
 import {
     getUserTransactions,
-    getUserTransactionsByDesc,
+    // getUserTransactionsByDesc,
+    // filterUserTransactions,
+    // addUserTransaction
     filterUserTransactions,
-    addUserTransaction
+
 } from "./transaction.service.js";
 import authenticateToken from '../middleware/token.auth.js';
 
 const router = Router()
 
-router.get("/transactions", authenticateToken, (req, res) => {
+// CHANGE ENDPOINT 
+router.get("/transaction", authenticateToken, (req, res) => {
     const { userId } = req.user
 
     try {
@@ -30,5 +33,25 @@ router.get("/transactions", authenticateToken, (req, res) => {
     }
 })
 
+
+// TRY FILTER BY PARAM
+router.get('/transactions', authenticateToken, async (req, res) => {
+    //  query parameters
+    const { type, description, startDate, endDate, minAmount, maxAmount, accountId } = req.query;
+
+    try {
+        const transactions = await filterUserTransactions({ type, description, startDate, endDate, minAmount, maxAmount, accountId });
+        res.status(200).json({
+            status: 200,
+            message: 'Transactions retrieved successfully',
+            data: transactions
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 400,
+            message: err.message
+        });
+    }
+});
 
 export default router

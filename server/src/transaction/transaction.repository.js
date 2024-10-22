@@ -9,7 +9,7 @@ const findTransactionsByUserIdDb = async (userId) => {
 
     return transactionsData
 }
-
+/*
 const findUserTransactionsByAccountIdDb = async (accountId, userId) => {
     const transactionsData = await prisma.transaction.findMany({
         where: {
@@ -77,6 +77,7 @@ const findUserTransactionsByFilters = async (userId, filterData) => {
     })
     return transactionsData
 }
+    */
 
 const createUserTransactionsDb = async (userId, transactionData) => {
     const transactionDataResult = await prisma.transaction.create({
@@ -92,13 +93,81 @@ const createUserTransactionsDb = async (userId, transactionData) => {
     return transactionDataResult
 }
 
+//TRY
+ const findUserTransactionsByFiltersDb = async (filters) => {
+    const {
+        type,
+        description,
+        startDate,
+        endDate,
+        minAmount,
+        maxAmount,
+        accountId
+    } = filters;
+
+    const whereClause = {};
+
+    // Filter accountId
+    if (accountId) {
+        whereClause.accountId = accountId;
+    }
+
+
+    // Filter type 
+    if (type) {
+        whereClause.transaction_type = type; // misalnya 'masuk' atau 'keluar'
+    }
+
+    // Filter deskripsi
+    if (description) {
+        whereClause.description = {
+            contains: description, 
+            mode: 'insensitive' 
+        };
+    }
+
+    // Filter range tanggal
+    if (startDate || endDate) {
+        whereClause.createdAt= {};
+        if (startDate) {
+            whereClause.createdAt.gte = new Date(startDate); 
+        }
+        if (endDate) {
+            whereClause.createdAt.lte = new Date(endDate); 
+        }
+    }
+
+    // Filter range amount
+    if (minAmount || maxAmount) {
+        whereClause.amount = {} ;
+        if (minAmount) {
+            whereClause.amount.gte = parseInt(minAmount);
+        }
+        if (maxAmount) {
+            whereClause.amount.lte = parseInt(maxAmount); 
+        }
+    }
+
+ 
+    // Query ke database menggunakan Prisma
+    const transactions = await prisma.transaction.findMany({
+        where: whereClause,
+        orderBy: { createdAt: 'desc' }, 
+    });
+
+    return transactions;
+};
+
+
+
 export {
-    findUserTransactionsByFilters,
     findTransactionsByUserIdDb,
-    findUserTransactionsByAccountIdDb,
-    findUserTransactionsByCategoryIdDb,
-    findUserTransactionsByCreatedTimeDb,
-    findUserTransactionsByTypeDb,
-    findUserTransactionsByDescDb,
-    createUserTransactionsDb
+    // findUserTransactionsByFilters,
+    // findUserTransactionsByAccountIdDb,
+    // findUserTransactionsByCategoryIdDb,
+    // findUserTransactionsByCreatedTimeDb,
+    // findUserTransactionsByTypeDb,
+    // findUserTransactionsByDescDb,
+    createUserTransactionsDb,
+    findUserTransactionsByFiltersDb
 }
