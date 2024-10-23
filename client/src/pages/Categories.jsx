@@ -3,61 +3,51 @@ import Cookies from 'js-cookie';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Accounts = () => {
-    const [accounts, setAccounts] = useState([]);
-    
+const Categories = () => {
+    const [categories, setCategories] = useState([]);
     const nav = useNavigate();
 
     useEffect(() => {
-        accountsData()
+        accountDetails()
     }, []);
 
-    const accountsData = async() => {
+    const accountDetails = async() => {
         try {
             const token = Cookies.get('token')
 
-            const response = await axios.get('https://bread-finance-api.vercel.app/api/accounts', {
+            const response = await axios.get('https://bread-finance-api.vercel.app/api/categories', {
                 'headers': {
                 'Authorization': 'Bearer ' + token
             }});
-            console.log(response.data.data.accounts);
-            setAccounts(response.data.data.accounts);
+            
+            console.log(response);
+            setCategories(response.data.data.categories);
         } catch (error) {
             console.log(error.response?.message);
         }
     }
-
-    const getTotalBalance = () => {
-        return accounts.reduce((sum, account) => sum + (account.balance || 0), 0);
-    };
 
     return (
         <>
             <div className="min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 p-8">
                 <header className="bg-white rounded-lg shadow-lg p-6 mb-8">
                     <div className="text-center">
-                        <h1 className="text-3xl font-bold mb-4">All Accounts</h1>
-                    </div>
-                    <div className="balance-info text-center mb-4">
-                        <div className="balance-item">
-                            <h2 className=" text-green-500 text-2xl font-semibold">IDR {getTotalBalance()}</h2>
-                            <p className="text-gray-600">Total Balance</p>
-                        </div>
+                        <h1 className="text-3xl font-bold mb-4">All Categories Details for Account {Cookies.get('account_name')}</h1>
                     </div>
                     <div className="controls flex justify-center space-x-4">
                         <button 
                             type="button" 
-                            onClick={() => nav("/add-account")} 
+                            onClick={() => nav("/add-category")} 
                             className="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors"
                         >
-                            Add Accounts
+                            Add Categories
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/dashboard")} 
+                            onClick={() => nav("/account-details")} 
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
                         >
-                            Dashboard
+                            Account Details
                         </button>
                         <button 
                             type="button" 
@@ -73,31 +63,19 @@ const Accounts = () => {
                     <table className="w-full table-auto">
                         <thead>
                             <tr className="bg-gray-200 text-left">
-                                <th className="px-4 py-2">Created Date</th>
-                                <th className="px-4 py-2">Account Name</th>
-                                <th className="px-4 py-2">Account Type</th>
-                                <th className="px-4 py-2">Balance</th>
+                                <th className="px-4 py-2">Category Name</th>
                                 <th className="px-4 py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {accounts.map((account) => (
-                                <tr key={account.account_id} className="border-t">
-                                    <td className="px-4 py-2">{account.createdAt}</td>
-                                    <td className="px-4 py-2">{account.account_name}</td>
-                                    <td className="px-4 py-2">{account.account_type}</td>
-                                    <td className="px-4 py-2">{account.balance}</td>
+                            {categories.map((categories) => (
+                                <tr key={categories.category_id} className="border-t">
+                                    <td className="px-4 py-2">{categories.category_name}</td>
                                     <td className="px-4 py-2">
                                         <button 
                                             type="button" 
                                             className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
-                                            onClick={() => {
-                                                console.log(account.account_id),
-                                                Cookies.set('account_name', account.account_name, {expires: 1, secure: true}),
-                                                Cookies.set('account_balance', account.balance, {expires: 1, secure: true}),
-                                                Cookies.set('account_id', account.account_id, {expires: 1, secure: true})
-                                                nav('/account-details')
-                                            }}
+                                            onClick={() => {console.log(categories.category_id)}}
                                         >
                                             Details
                                         </button>
@@ -114,8 +92,9 @@ const Accounts = () => {
                     </table>
                 </div>
             </div>
+
         </>        
     )
 }
 
-export default Accounts;
+export default Categories

@@ -14,7 +14,7 @@ const AddAccount = () => {
     e.preventDefault();
     try
     {
-        const token = Cookies.get('token')
+        const token = Cookies.get('token');
         const response = await axios.post('https://bread-finance-api.vercel.app/api/account', 
         {
             name: accountName,
@@ -110,9 +110,7 @@ const AddAccount = () => {
                 </p>
             </div>
         </section>
-
     </>
-
   )
 }
 
