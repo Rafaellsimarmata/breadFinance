@@ -50,7 +50,7 @@ const Accounts = () => {
                             onClick={() => nav("/add-account")} 
                             className="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors"
                         >
-                            Add Accounts
+                            Add Account
                         </button>
                         <button 
                             type="button" 
@@ -83,7 +83,12 @@ const Accounts = () => {
                         <tbody>
                             {accounts.map((account) => (
                                 <tr key={account.account_id} className="border-t">
-                                    <td className="px-4 py-2">{account.createdAt}</td>
+                                    <td className="px-4 py-2">
+                                        {(() => {
+                                            const date = new Date(account.createdAt);
+                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+                                        })()}
+                                    </td>
                                     <td className="px-4 py-2">{account.account_name}</td>
                                     <td className="px-4 py-2">{account.account_type}</td>
                                     <td className="px-4 py-2">{account.balance}</td>
@@ -92,7 +97,6 @@ const Accounts = () => {
                                             type="button" 
                                             className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
                                             onClick={() => {
-                                                console.log(account.account_id),
                                                 Cookies.set('account_name', account.account_name, {expires: 1, secure: true}),
                                                 Cookies.set('account_balance', account.balance, {expires: 1, secure: true}),
                                                 Cookies.set('account_id', account.account_id, {expires: 1, secure: true})
