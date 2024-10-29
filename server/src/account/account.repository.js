@@ -7,6 +7,13 @@ const getAccountsByUserIdDb = (userId) => {
     return userAccounts
 }
 
+const getAccountByAccountIdDb = (accoutId) => {
+    const accountData = prisma.account.findUnique({
+        where : {account_id : accoutId}
+    })
+    return accountData
+}
+
 const addAccountByUserIdDb = (userId, accountData) => {
     const userAccountRes = prisma.account.create({
         data: {
@@ -44,4 +51,10 @@ const userDeleteAccountDb = (accountId) => {
     })
 }
 
-export { getAccountsByUserIdDb, addAccountByUserIdDb, userUpdateAccountDb, userDeleteAccountDb }
+export { 
+    getAccountByAccountIdDb, 
+    getAccountsByUserIdDb,
+    addAccountByUserIdDb, 
+    userUpdateAccountDb, 
+    userDeleteAccountDb 
+}
