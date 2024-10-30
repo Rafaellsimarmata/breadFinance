@@ -2,14 +2,66 @@ import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import PieChart from "../component/pieChart";
+import { Doughnut } from "react-chartjs-2";
+import DoughnutChart from "../component/Doughnut";
 
 const Dashboard = () => {
     const [name, setName] = useState('');
+    const [userTransaction, setUserTransaction] = useState([])
+    const [categories, setCategories] = useState([]);
+    const [isTransactionsLoading, setTransactionsLoading] = useState(true);
     const nav = useNavigate();
 
     useEffect(() => {
         refreshToken()
     }, []);
+
+    useEffect(() => {
+        fetchTransactions();
+    }, []); // Add dependencies as needed
+
+    useEffect(() => {
+        accountDetails()
+    }, []);
+
+    const accountDetails = async() => {
+        try {
+            const token = Cookies.get('token')
+
+            const response = await axios.get('https://bread-finance-api.vercel.app/api/categories', {
+                'headers': {
+                'Authorization': 'Bearer ' + token
+            }});
+            
+            console.log(response);
+            setCategories(response.data.data.categories);
+        } catch (error) {
+            console.log(error.response?.message);
+        }
+    }
+
+    const fetchTransactions = async() => {
+        setTransactionsLoading(true);
+        try {
+            const token = Cookies.get('token');
+            const response = await axios.get('https://bread-finance-api.vercel.app/api/transactions', 
+                {
+                    'headers' :
+                    {
+                        'Authorization': 'Bearer ' + token
+                    }
+                }
+            )
+            setUserTransaction(response.data.data.userTransactionsData);
+        } catch (error) {
+            console.error("Failed to fetch transactions:", error.response?.message);
+        } finally {
+            setTransactionsLoading(false);
+        }
+    }
 
     const refreshToken = async() => {
         try 
@@ -29,6 +81,73 @@ const Dashboard = () => {
             console.log(error.response?.message)
         }
     }
+
+    const categoryMap = categories.reduce((acc, category) => {
+        acc[category.category_id] = category.category_name; // Assuming each category has id and name properties
+        return acc;
+    }, {});
+
+    // Function to generate a random RGB color
+    const getRandomColor = () => {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+
+    Chart.register(CategoryScale);
+
+    // Filter for specific transaction type
+    const filteredTransactions = userTransaction.filter(
+        transaction => transaction.transaction_type === "Inbound"
+    );
+
+    const aggregatedData = filteredTransactions.reduce((acc, transaction) => {
+        acc[transaction.categoryId] = (acc[transaction.categoryId] || 0) + transaction.amount;
+        return acc;
+    }, {});
+
+    // pecah object ke beberapa bagian
+    const labels = Object.keys(aggregatedData).map(catId => categoryMap[catId]);
+    const amount = Object.values(aggregatedData);
+    const backgroundColor = labels.map(() => getRandomColor());
+
+    const inBoundChartData = {
+        labels: labels,
+        datasets: [{
+          label: 'Income Chart',
+          data: amount,
+          backgroundColor: backgroundColor,
+          hoverOffset: 4
+        }]
+      }
+
+    // Filter for specific transaction type
+    const outBoundFilteredTransactions = userTransaction.filter(
+        transaction => transaction.transaction_type === "Outbound"
+    );
+
+    const outBoundaggregatedData = outBoundFilteredTransactions.reduce((acc, transaction) => {
+        acc[transaction.categoryId] = (acc[transaction.categoryId] || 0) + transaction.amount;
+        return acc;
+    }, {});
+
+    // pecah object ke beberapa bagian
+    const outBoundLabels = Object.keys(outBoundaggregatedData).map(catId => categoryMap[catId]);
+    const outBoundAmount = Object.values(outBoundaggregatedData);
+    const outBoundBackgroundColor = labels.map(() => getRandomColor());
+    
+    const outBoundChartData = {
+        labels: outBoundLabels,
+        datasets: [{
+          label: 'Outcome Chart',
+          data: outBoundAmount,
+          backgroundColor: outBoundBackgroundColor,
+          hoverOffset: 4
+        }]
+    }
+
+    console.log(userTransaction)
 
     return (
         <>
@@ -78,12 +197,21 @@ const Dashboard = () => {
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/accounts")} 
+                            onClick={() => nav("/Transactions")} 
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
-                        >
+                        >   
                             View Transactions
                         </button>
                     </div>
+
+                    <div>
+                        <DoughnutChart chartData={inBoundChartData} title={"Income Flow"}/>
+                    </div>
+
+                    <div>
+                        <DoughnutChart chartData={outBoundChartData} title={"Outcome Flow"}/>
+                    </div>
+
                 </div>
             </div>
         </>
