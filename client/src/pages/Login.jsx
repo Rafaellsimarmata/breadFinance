@@ -24,11 +24,11 @@ const Login = () => {
 
       setTimeout(() => {
         setMessage("Redirecting...")
-      }, 1000)
+      }, 100)
 
       setTimeout(() => {
         nav("/dashboard");
-      }, 2000);
+      }, 200);
     }
     catch (error)
     {

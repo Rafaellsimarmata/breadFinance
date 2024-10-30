@@ -4,8 +4,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import PieChart from "../component/pieChart";
-import { Doughnut } from "react-chartjs-2";
 import DoughnutChart from "../component/Doughnut";
 
 const Dashboard = () => {
@@ -147,7 +145,7 @@ const Dashboard = () => {
         }]
     }
 
-    console.log(userTransaction)
+    // console.log(userTransaction)
 
     return (
         <>
@@ -197,7 +195,7 @@ const Dashboard = () => {
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/Transactions")} 
+                            onClick={() => nav("/transactions")} 
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
                         >   
                             View Transactions

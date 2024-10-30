@@ -5,22 +5,38 @@ import { useNavigate } from "react-router-dom";
 
 const Accounts = () => {
     const [accounts, setAccounts] = useState([]);
-    
+    const [accountToDelete, setAccountToDelete] = useState(null);
+    const [accountToDeleteName, setAccountToDeleteName] = useState(null);
     const nav = useNavigate();
 
     useEffect(() => {
         accountsData()
     }, []);
 
+    const deleteAccount = async(account_id) => {
+        try {
+            const token = Cookies.get('token');
+            const response = await axios.delete(`https://bread-finance-api.vercel.app/api/account/${account_id}`, {
+                'headers': {
+                'Authorization': 'Bearer ' + token
+            }});
+            console.log(response.data.message);
+            setAccountToDelete(null);
+            setAccountToDeleteName(null);
+            accountsData();
+        } catch (error) {
+            console.log(error.response?.data.message);
+        }
+    }
+
     const accountsData = async() => {
         try {
-            const token = Cookies.get('token')
-
+            const token = Cookies.get('token');
             const response = await axios.get('https://bread-finance-api.vercel.app/api/accounts', {
                 'headers': {
                 'Authorization': 'Bearer ' + token
             }});
-            console.log(response.data.data.accounts);
+            console.log(response.data.message);
             setAccounts(response.data.data.accounts);
         } catch (error) {
             console.log(error.response?.message);
@@ -99,15 +115,19 @@ const Accounts = () => {
                                             onClick={() => {
                                                 Cookies.set('account_name', account.account_name, {expires: 1, secure: true}),
                                                 Cookies.set('account_balance', account.balance, {expires: 1, secure: true}),
-                                                Cookies.set('account_id', account.account_id, {expires: 1, secure: true})
+                                                Cookies.set('account_id', account.account_id, {expires: 1, secure: true}),
                                                 nav('/account-details')
                                             }}
                                         >
                                             Details
                                         </button>
-                                        <button 
+                                        <button  
                                             type="button" 
                                             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                                            onClick={() => {
+                                                setAccountToDelete(account.account_id),
+                                                setAccountToDeleteName(account.account_name)
+                                            }}
                                         >
                                             Delete
                                         </button>
@@ -116,6 +136,32 @@ const Accounts = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {accountToDelete && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div className="bg-white rounded-lg p-6 w-96">
+                            <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
+                            <p>Are you sure you want to delete account: {accountToDeleteName}</p>
+                            <div className="mt-4 flex justify-end space-x-4">
+                                <button
+                                    onClick={() => deleteAccount(accountToDelete)}
+                                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
+                                >
+                                    Yes, Delete
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setAccountToDelete(null),
+                                        setAccountToDeleteName(null)
+                                    }}
+                                    className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 </div>
             </div>
         </>        

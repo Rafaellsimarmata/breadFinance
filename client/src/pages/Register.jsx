@@ -27,11 +27,11 @@ const Register = () => {
 
         setTimeout(() => {
           setMessage("Redirecting to login page...")
-        }, 1000)
+        }, 100)
   
         setTimeout(() => {
           nav("/login");
-        }, 2000);
+        }, 200);
       }
       else
       {

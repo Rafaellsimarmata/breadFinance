@@ -13,6 +13,8 @@ const Transactions = () => {
     const [selectedFilter, setSelectedFilter] = useState('createdAt');
     const [displaySelectedFilter, setDisplaySelectedFilter] = useState('');
     const [transactionType, setTransactionType] = useState('');
+    const [minAmount, setMinAmount] = useState('');
+    const [maxAmount, setMaxAmount] = useState('');
     const [isAscending, setIsAscending] = useState(true);
     const nav = useNavigate();
 
@@ -31,7 +33,7 @@ const Transactions = () => {
                     }
                 }
             )
-            console.log(response);
+            console.log(response.data.message);
             setTransactions(response.data.data.userTransactionsData);
 
         } 
@@ -42,12 +44,11 @@ const Transactions = () => {
 
     useEffect(() => {
         const filteredTransactions = transactions.filter(item => {
-            const itemDate = new Date(item.createdAt); // Use createdAt for filtering
+            const itemDate = new Date(item.createdAt);
             const start = startDate ? new Date(startDate) : null;
             const end = endDate ? new Date(endDate) : null;
 
-            const matchesTransactionType =
-            !transactionType || item.transaction_type === transactionType; // Check transaction type
+            const matchesTransactionType = !transactionType || item.transaction_type === transactionType;
 
             const matchesQuery = item.description.toLowerCase().includes(query.toLowerCase());
 
@@ -56,54 +57,61 @@ const Transactions = () => {
                 (start && end && itemDate >= start && itemDate <= end) || // Normal date range
                 (start && !end && itemDate >= start) || // Only start date filter applied
                 (!start && end && itemDate <= end); // Only end date filter applied
-                // setDisplaySelectedFilter("Date: " + startDate + " to " + endDate);
+                if (matchesDateRange !== null && start !== null && end !== null) {
+                    setDisplaySelectedFilter("Date: " + startDate + " to " + endDate);
+                }
 
-            return matchesQuery && matchesDateRange && matchesTransactionType;
+            const matchesAmountRange = 
+                (minAmount === '' || item.amount >= minAmount) && 
+                (maxAmount === '' || item.amount <= maxAmount);
+                if (matchesAmountRange !== null && minAmount !== '' && maxAmount !== '') {
+                    setDisplaySelectedFilter("Amount: " + minAmount + " - " + maxAmount);
+                }
+
+            return matchesQuery && matchesDateRange && matchesTransactionType && matchesAmountRange;
         });
 
-        // Sort filtered transactions based on selected filter
         const sortedTransactions = filteredTransactions.sort((a, b) => {
             if (selectedFilter === 'createdAt') {
-                setDisplaySelectedFilter("Date Created");
+                if (isAscending === true) {
+                    setDisplaySelectedFilter("Date Created (Ascending)");
+                }
+                else {
+                    setDisplaySelectedFilter("Date Created (Descending)");
+                }
                 return isAscending
                     ? new Date(a.createdAt) - new Date(b.createdAt)
                     : new Date(b.createdAt) - new Date(a.createdAt);
             }
-            return 0; // Default no sorting for other filters
+            return 0;
         });
-
         setFilteredTransactions(sortedTransactions);
-        
-    }, [query, transactions, startDate, endDate, selectedFilter, isAscending, transactionType]);
+    }, [query, transactions, startDate, endDate, selectedFilter, isAscending, transactionType, minAmount, maxAmount]);
 
     const toggleFilterPopup = () => {
         setShowFilterPopup(!showFilterPopup);
     };
 
-    // Handle the selection of filter type
     const applyFilter = (filterType) => {
         console.log(filterType);
         setSelectedFilter(filterType);
-        if (filterType !== 'date') {
-            resetFilters();
-            setShowFilterPopup(false);
-        }
 
         if (filterType === 'createdAt') {
-            setDisplaySelectedFilter('Created At: ')
-            setIsAscending(!isAscending); // Toggle sort order on the same filter
+            resetFilters();
+            setIsAscending(!isAscending);
+            setShowFilterPopup(false);
         }
-
-        if(filterType === 'transaction_type') {
-            setShowFilterPopup(true);
+        else {
+            resetFilters();
         }
     };
 
     const applyTransactionTypeFilter = (type) => {
+        resetFilters();
         console.log(type);
         setTransactionType(type);
         setDisplaySelectedFilter("Transaction Type: " + type);
-        setShowFilterPopup(false); // Close the popup after selecting transaction type
+        setShowFilterPopup(false);
     };
 
     const resetFilters = () => {
@@ -111,6 +119,8 @@ const Transactions = () => {
         setStartDate('');
         setEndDate('');
         setTransactionType('');
+        setMinAmount('');
+        setMaxAmount('');
     }
 
     const getTotalBalance = () => {
@@ -129,7 +139,6 @@ const Transactions = () => {
 
     return (
         <>
-            {/* Filter Popup Modal */}
             {showFilterPopup && (
             <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
                 <div className="bg-white rounded-lg p-6 w-96">
@@ -156,6 +165,26 @@ const Transactions = () => {
                             <button className="block w-full mt-1 border rounded-md p-2 hover:bg-gray-100" value="Outbound" onClick={(e) => applyTransactionTypeFilter(e.target.value)}>
                                 Outbound
                             </button>
+                        </div>
+                    )}
+
+                    <button
+                        onClick={() => applyFilter('amount')}
+                        className="w-full py-2 text-left hover:bg-gray-100 rounded-md px-3"
+                    >
+                        Amount
+                    </button>
+
+                    {selectedFilter === 'amount' && (
+                        <div className="mt-4">
+                            <label className="block mb-2">
+                                Minimum Amount:
+                                <input type="number" placeholder="Minimum" value={minAmount} onChange={(e) => setMinAmount(e.target.value)} className="block w-full mt-1 border rounded-md p-2" />
+                            </label>
+                            <label className="block mb-2">
+                                Maximum Amount:
+                                <input type="number" placeholder="Maximum" value={maxAmount} onChange={(e) => setMaxAmount(e.target.value)} className="block w-full mt-1 border rounded-md p-2" />
+                            </label>
                         </div>
                     )}
 
@@ -237,6 +266,13 @@ const Transactions = () => {
                         </button>
                         <button 
                             type="button" 
+                            onClick={() => nav("/dashboard")} 
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
+                        >
+                            Dashboard
+                        </button>
+                        <button 
+                            type="button" 
                             onClick={() => nav("/logout")} 
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
                         >
@@ -261,7 +297,6 @@ const Transactions = () => {
                                 <tr key={transactions.transaction_id} className="border-t">
                                      <td className="px-4 py-2">
                                         {(() => {
-                                            // Convert createdAt to formatted date
                                             const date = new Date(transactions.createdAt);
                                             return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
                                         })()}

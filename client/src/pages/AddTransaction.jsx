@@ -58,14 +58,7 @@ const AddTransactions = () => {
         });
         console.log(response.data.message);
         setMessage(response.data.message);
-
-        setTimeout(() => {
-            setMessage("Redirecting to all transactions...")
-        }, 1000);
-
-        setTimeout(() => {
-            nav("/transactions")
-        }, 2000);
+        nav("/transactions");
     }
     catch (error)
     {
@@ -79,11 +72,8 @@ const AddTransactions = () => {
         <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
                 <h1 className="text-4xl font-bold mb-6">Add Transaction</h1>
-
-                {/* Display message */}
                 <p className="text-red-500 mb-4">{message}</p>
 
-                {/* Form */}
                 <form onSubmit={newTransaction} className="space-y-6">
                     <div>
                         <label className="block text-left text-gray-700 font-medium mb-2">Description</label>
@@ -99,7 +89,7 @@ const AddTransactions = () => {
                     <div>
                         <label className="block text-left text-gray-700 font-medium mb-2">Category</label>
                         <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e => {setSelectedCategory(e.target.value)})}>
-                            <option value="">--Please choose a category--</option>
+                            <option>- Please choose a category -</option>
                                 {categories.map((option) => (
                                     <option key={option.category_id} value={option.category_id}>
                                         {option.category_name}
@@ -111,7 +101,7 @@ const AddTransactions = () => {
                     <div>
                         <label className="block text-left text-gray-700 font-medium mb-2">Transaction Type</label>
                         <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e) => setTransactionType(e.target.value)}>
-                            <option value="">--Please choose a transaction type--</option>
+                            <option>- Please choose a transaction type -</option>
                             <option value="Inbound">Inbound</option>
                             <option value="Outbound">Outbound</option>
                         </select>
@@ -138,7 +128,6 @@ const AddTransactions = () => {
                     </div>
                 </form>
 
-                {/* Cancel Link */}
                 <p className="mt-4 text-gray-600">
                     <span
                         className="text-blue-500 hover:underline cursor-pointer"

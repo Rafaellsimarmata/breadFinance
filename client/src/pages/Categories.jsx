@@ -19,8 +19,7 @@ const Categories = () => {
                 'headers': {
                 'Authorization': 'Bearer ' + token
             }});
-            
-            console.log(response);
+            console.log(response.data.message);
             setCategories(response.data.data.categories);
         } catch (error) {
             console.log(error.response?.message);
@@ -48,6 +47,13 @@ const Categories = () => {
                             className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
                         >
                             Account Details
+                        </button>
+                        <button 
+                            type="button" 
+                            onClick={() => nav("/dashboard")} 
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors"
+                        >
+                            Dashboard
                         </button>
                         <button 
                             type="button" 

@@ -29,14 +29,7 @@ const AddAccount = () => {
         });
         console.log(response.data.message);
         setMessage(response.data.message);
-
-        setTimeout(() => {
-            setMessage("Redirecting to accounts...")
-        }, 1000);
-
-        setTimeout(() => {
-            nav("/accounts")
-        }, 2000);
+        nav("/accounts");
     }
     catch (error)
     {
@@ -50,11 +43,7 @@ const AddAccount = () => {
         <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
                 <h1 className="text-4xl font-bold mb-6">Add Account</h1>
-
-                {/* Display message */}
                 <p className="text-red-500 mb-4">{message}</p>
-
-                {/* Form */}
                 <form onSubmit={newAccount} className="space-y-6">
                     <div>
                         <label className="block text-left text-gray-700 font-medium mb-2">Name</label>
@@ -94,12 +83,11 @@ const AddAccount = () => {
                             type="submit"
                             className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
                         >
-                            Register
+                            Add
                         </button>
                     </div>
                 </form>
 
-                {/* Cancel Link */}
                 <p className="mt-4 text-gray-600">
                     <span
                         className="text-blue-500 hover:underline cursor-pointer"

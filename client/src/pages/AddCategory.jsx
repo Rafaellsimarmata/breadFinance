@@ -25,14 +25,8 @@ const AddCategory = () => {
         });
         console.log(response.data.message);
         setMessage(response.data.message);
+        nav("/categories");
 
-        setTimeout(() => {
-            setMessage("Redirecting to all categories...");
-        }, 1000);
-
-        setTimeout(() => {
-            nav("/categories");
-        }, 2000);
     }
     catch (error)
     {
