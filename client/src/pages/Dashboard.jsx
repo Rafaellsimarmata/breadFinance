@@ -133,7 +133,7 @@ const Dashboard = () => {
     // pecah object ke beberapa bagian
     const outBoundLabels = Object.keys(outBoundaggregatedData).map(catId => categoryMap[catId]);
     const outBoundAmount = Object.values(outBoundaggregatedData);
-    const outBoundBackgroundColor = labels.map(() => getRandomColor());
+    const outBoundBackgroundColor = outBoundLabels.map(() => getRandomColor());
     
     const outBoundChartData = {
         labels: outBoundLabels,
