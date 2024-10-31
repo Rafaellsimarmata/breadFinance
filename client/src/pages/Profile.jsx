@@ -62,7 +62,7 @@ const Profile = () => {
             </nav>
 
             {/* Content */}
-            <div className="bg-gradient-to-r from-blue-500 to-teal-500 min-h-screen flex justify-center items-center">
+            <div className="bg-gradient-to-r from-indigo-200 to-indigo-300 min-h-screen flex justify-center items-center">
                 <div className="bg-white shadow-md rounded-lg p-10 w-full max-w-sm text-center">
                     <h2 className="text-xl font-bold">Profile Information</h2>
 

@@ -149,7 +149,7 @@ const Dashboard = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 p-8">
+            <div className="min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300 p-8">
                 {/* Navbar */}
                 <nav className="bg-white bg-opacity-90 rounded-lg shadow-lg p-4 mb-8">
                     <div className="flex justify-between items-center">
@@ -174,11 +174,11 @@ const Dashboard = () => {
                 </nav>
 
                 {/* Content */}
-                <div className="bg-gradient-to-r from-blue-500 to-teal-500 rounded-lg shadow-lg p-8 flex">
+                <div className="bg-white rounded-lg shadow-lg p-8 flex">
                     {/* Left */}
                     <div className="flex-1 text-left pr-8">
-                        <h1 className="text-4xl font-bold mb-4 text-white">BreadFinance</h1>
-                        <p className="text-lg text-white mb-6">
+                        <h1 className="text-4xl font-bold mb-4 text-black">BreadFinance</h1>
+                        <p className="text-lg text-black mb-6">
                             Manage all your financial accounts with ease, track balances, and view detailed information at a glance. 
                             BreadFinance helps you stay on top of your finances, providing a smooth and efficient experience.
                         </p>

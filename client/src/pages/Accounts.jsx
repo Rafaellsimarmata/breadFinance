@@ -49,7 +49,7 @@ const Accounts = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 p-8">
+            <div className="min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300 p-8">
                 <header className="bg-white rounded-lg shadow-lg p-6 mb-8">
                     <div className="text-center">
                         <h1 className="text-3xl font-bold mb-4">All Accounts</h1>
