@@ -51,9 +51,9 @@ const Register = () => {
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
         <h1 className="text-4xl font-bold text-center mb-4">Register</h1>
         <p className="text-center text-red-500">{message}</p>
-          <form onSubmit={sendRegister} className="space-y-6">
+          <form onSubmit={sendRegister} className="space-y-6" id='register'>
               <div>
-                  <label className="block text-gray-700 font-medium mb-2">Name</label>
+                  <label className="block text-gray-700 font-medium mb-2" id='registerName'>Name</label>
                   <input
                       type="text"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -63,7 +63,7 @@ const Register = () => {
                   />
               </div>
               <div>
-                  <label className="block text-gray-700 font-medium mb-2">Username</label>
+                  <label className="block text-gray-700 font-medium mb-2" id='registerUsername'>Username</label>
                   <input
                       type="text"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -73,7 +73,7 @@ const Register = () => {
                   />
               </div>
               <div>
-                  <label className="block text-gray-700 font-medium mb-2">Email</label>
+                  <label className="block text-gray-700 font-medium mb-2" id='registerEmail'>Email</label>
                   <input
                       type="text"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,7 +83,7 @@ const Register = () => {
                   />
               </div>
               <div>
-                  <label className="block text-gray-700 font-medium mb-2">Password</label>
+                  <label className="block text-gray-700 font-medium mb-2" id='registerPassword'>Password</label>
                   <input
                       type="password"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -93,7 +93,7 @@ const Register = () => {
                   />
               </div>
               <div>
-                  <label className="block text-gray-700 font-medium mb-2">Confirm Password</label>
+                  <label className="block text-gray-700 font-medium mb-2" id='registerConfirmPassword'>Confirm Password</label>
                   <input
                       type="password"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

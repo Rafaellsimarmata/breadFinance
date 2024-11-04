@@ -200,6 +200,20 @@ const Dashboard = () => {
                         >   
                             View Transactions
                         </button>
+                        <button 
+                            type="button" 
+                            onClick={() => nav("/categories")} 
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
+                        >   
+                            View Categories
+                        </button>
+                        <button 
+                            type="button" 
+                            onClick={() => nav("/goals")} 
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
+                        >   
+                            View Goals
+                        </button>
                     </div>
 
                     <div>

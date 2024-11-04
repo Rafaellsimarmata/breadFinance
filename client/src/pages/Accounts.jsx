@@ -113,9 +113,8 @@ const Accounts = () => {
                                             type="button" 
                                             className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
                                             onClick={() => {
-                                                Cookies.set('account_name', account.account_name, {expires: 1, secure: true}),
-                                                Cookies.set('account_balance', account.balance, {expires: 1, secure: true}),
-                                                Cookies.set('account_id', account.account_id, {expires: 1, secure: true}),
+                                                localStorage.setItem('account_id', account.account_id),
+                                                localStorage.setItem('account_name', account.account_name),
                                                 nav('/account-details')
                                             }}
                                         >

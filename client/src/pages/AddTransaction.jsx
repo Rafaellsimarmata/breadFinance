@@ -11,17 +11,16 @@ const AddTransactions = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const nav = useNavigate();
-  const token = Cookies.get('token');
-  const account_id = Cookies.get('account_id');
+  const account_id = localStorage.getItem('account_id');
 
   useEffect(() => {
     fetchAccountCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
   const fetchAccountCategories = async() => {
     try 
     {
+        const token = Cookies.get('token');
         const response = await axios.get('https://bread-finance-api.vercel.app/api/categories', 
             {
                 'headers': {
@@ -42,6 +41,7 @@ const AddTransactions = () => {
     e.preventDefault();
     try
     {
+        const token = Cookies.get('token');
         const response = await axios.post('https://bread-finance-api.vercel.app/api/transaction', 
         {
             accountId: account_id,
@@ -74,9 +74,9 @@ const AddTransactions = () => {
                 <h1 className="text-4xl font-bold mb-6">Add Transaction</h1>
                 <p className="text-red-500 mb-4">{message}</p>
 
-                <form onSubmit={newTransaction} className="space-y-6">
+                <form onSubmit={newTransaction} className="space-y-6" id='addTransaction'>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Description</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='transactionDescription'>Description</label>
                         <input
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -87,7 +87,7 @@ const AddTransactions = () => {
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Category</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='transactionCategory'>Category</label>
                         <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e => {setSelectedCategory(e.target.value)})}>
                             <option>- Please choose a category -</option>
                                 {categories.map((option) => (
@@ -99,7 +99,7 @@ const AddTransactions = () => {
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Transaction Type</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='transactionType'>Transaction Type</label>
                         <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e) => setTransactionType(e.target.value)}>
                             <option>- Please choose a transaction type -</option>
                             <option value="Inbound">Inbound</option>
@@ -108,7 +108,7 @@ const AddTransactions = () => {
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Amount</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='transactionId'>Amount</label>
                         <input
                             type="number"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

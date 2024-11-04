@@ -11,3 +11,5 @@ export {default as AddTransaction} from "./AddTransaction";
 export {default as Categories} from "./Categories";
 export {default as AddCategory} from "./AddCategory";
 export {default as AccountDetails} from "./AccountDetails";
+export {default as Goals} from "./Goals";
+export {default as AddGoal} from "./AddGoal";

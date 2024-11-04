@@ -39,15 +39,15 @@ const AddCategory = () => {
     <>
         <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
-                <h1 className="text-4xl font-bold mb-6">Add Transaction Category</h1>
+                <h1 className="text-4xl font-bold mb-6">Add Category</h1>
 
                 {/* Display message */}
                 <p className="text-red-500 mb-4">{message}</p>
 
                 {/* Form */}
-                <form onSubmit={newCategory} className="space-y-6">
+                <form onSubmit={newCategory} className="space-y-6" id='addCategory'>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2">Category Name</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='categoryName'>Category Name</label>
                         <input
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

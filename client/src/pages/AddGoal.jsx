@@ -3,23 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const AddAccount = () => {
-  const [accountName, setAccountName] = useState('');
-  const [accountType, setAccountType] = useState('');
-  const [accountBalance, setAccountBalance] = useState('');
+const AddGoal = () => {
+  const [goalName, setGoalName] = useState('');
+  const [goalAmount, setGoalAmount] = useState('');
+  const [goalDescription, setGoalDescription] = useState('');
   const [message, setMessage] = useState('');
   const nav = useNavigate();
   
-  const newAccount = async(e) => {
+  const newGoal = async(e) => {
     e.preventDefault();
     try
     {
         const token = Cookies.get('token');
-        const response = await axios.post('https://bread-finance-api.vercel.app/api/account', 
+        const response = await axios.post('https://bread-finance-api.vercel.app/api/goal', 
         {
-            name: accountName,
-            type: accountType,
-            balance: parseInt(accountBalance)
+            goal_name: goalName,
+            description: goalDescription,
+            amount: parseInt(goalAmount)
         },
         {
             'headers':
@@ -29,7 +29,7 @@ const AddAccount = () => {
         });
         console.log(response.data.message);
         setMessage(response.data.message);
-        nav("/accounts");
+        nav("/goals");
     }
     catch (error)
     {
@@ -42,56 +42,58 @@ const AddAccount = () => {
     <>
         <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300">
             <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
-                <h1 className="text-4xl font-bold mb-6">Add Account</h1>
+                <h1 className="text-4xl font-bold mb-6">Add Goal</h1>
+
+                {/* Display message */}
                 <p className="text-red-500 mb-4">{message}</p>
-                <form onSubmit={newAccount} className="space-y-6" id='addAccount'>
+
+                {/* Form */}
+                <form onSubmit={newGoal} className="space-y-6" id='addGoal'>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='accountName'>Name</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='goalName'>Goal Name</label>
                         <input
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Name"
-                            value={accountName}
-                            onChange={(e) => setAccountName(e.target.value)}
+                            placeholder="Goal Name"
+                            value={goalName}
+                            onChange={(e) => setGoalName(e.target.value)}
                         />
                     </div>
-
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='accountType'>Type</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='goalDescription'>Goal Description</label>
                         <input
                             type="text"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Type"
-                            value={accountType}
-                            onChange={(e) => setAccountType(e.target.value)}
+                            placeholder="Goal Name"
+                            value={goalDescription}
+                            onChange={(e) => setGoalDescription(e.target.value)}
                         />
                     </div>
-
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='accountBalance'>Balance</label>
+                        <label className="block text-left text-gray-700 font-medium mb-2" id='goalAmount'>Amount</label>
                         <input
                             type="number"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Balance"
-                            value={accountBalance}
-                            onChange={(e) => setAccountBalance(e.target.value)}
+                            placeholder="Amount"
+                            value={goalAmount}
+                            onChange={(e) => setGoalAmount(e.target.value)}
                         />
                     </div>
-
                     <div>
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                        >
-                            Add
-                        </button>
-                    </div>
+                      <button
+                          type="submit"
+                          className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                      >
+                          Add
+                      </button>
+                  </div>
                 </form>
 
+                {/* Cancel Link */}
                 <p className="mt-4 text-gray-600">
                     <span
                         className="text-blue-500 hover:underline cursor-pointer"
-                        onClick={() => nav("/accounts")}
+                        onClick={() => nav("/goals")}
                     >
                         Cancel
                     </span>
@@ -102,4 +104,4 @@ const AddAccount = () => {
   )
 }
 
-export default AddAccount
+export default AddGoal

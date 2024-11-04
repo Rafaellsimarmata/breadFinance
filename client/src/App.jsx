@@ -12,7 +12,9 @@ import {
   AddTransaction,
   Categories,
   AddCategory,
-  AccountDetails
+  AccountDetails,
+  Goals,
+  AddGoal
 } from './pages/route.js';
 
 function App() {
@@ -31,7 +33,9 @@ function App() {
         <Route path='/Add-Transaction' element={<AddTransaction />} ></Route>
         <Route path='/Categories' element={<Categories />}></Route>
         <Route path='/Add-Category' element={<AddCategory />} ></Route>
-        <Route path='/Account-Details'element={<AccountDetails />}></Route>
+        <Route path='/Account-Details' element={<AccountDetails />}></Route>
+        <Route path='/Goals' element={<Goals />}></Route>
+        <Route path='/Add-Goal' element={<AddGoal />}></Route>
       </Routes>
     </BrowserRouter>
   )
