@@ -10,7 +10,8 @@ const Accounts = () => {
     const nav = useNavigate();
 
     useEffect(() => {
-        accountsData()
+        accountsData();
+        clearLocalStorage();
     }, []);
 
     const deleteAccount = async(account_id) => {
@@ -41,6 +42,10 @@ const Accounts = () => {
         } catch (error) {
             console.log(error.response?.message);
         }
+    }
+
+    const clearLocalStorage = () => {
+        localStorage.clear();
     }
 
     const getTotalBalance = () => {

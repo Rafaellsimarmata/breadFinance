@@ -22,12 +22,11 @@ const AccountDetails = () => {
                         'Authorization': 'Bearer ' + token
                     }
                 }
-            )
+            );
             console.log(response.data.message);
             const filteredByAccountId = response.data.data.userTransactionsData.filter(transaction => 
                 accountId ? transaction.accountId === accountId : true
             );
-
             setFilteredTransactions(filteredByAccountId);
         } 
         catch (error) {
@@ -63,6 +62,13 @@ const AccountDetails = () => {
                         </div>
                     </div>
                     <div className="controls flex justify-center space-x-4">
+                        <button 
+                            type="button" 
+                            onClick={() => nav("/add-transaction", {state: {from: location.pathname}})} 
+                            className="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors"
+                        >
+                            Add Transaction
+                        </button>
                         <button 
                             type="button" 
                             onClick={() => nav("/accounts")} 

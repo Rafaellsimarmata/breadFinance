@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -12,12 +12,22 @@ const AddTransactions = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState('');
+  const [previousPath, setPreviousPath] = useState(null);
+  const location = useLocation();
   const nav = useNavigate();
 
   useEffect(() => {
     fetchCategories();
     fetchAllAccounts();
-    }, []);
+    checkAccountFromLocalStorage();
+    if (location.state?.from) {
+        setPreviousPath(location.state.from);
+    };
+    }, [location.state?.from]);
+
+    const handlePageNavigation = () => {
+        nav(previousPath || '/transactions');
+    }
 
     const fetchAllAccounts = async() => {
         try {
@@ -56,6 +66,13 @@ const AddTransactions = () => {
         }
     }
 
+    const checkAccountFromLocalStorage = async() => {
+        const tempAccount = localStorage.getItem('account_id')
+        if (tempAccount) {
+            setSelectedAccount(tempAccount);
+        }
+    }
+
     const newTransaction = async(e) => {
         e.preventDefault();
         try
@@ -77,7 +94,7 @@ const AddTransactions = () => {
             });
             console.log(response.data.message);
             setMessage(response.data.message);
-            nav("/transactions");
+            handlePageNavigation();
         }
         catch (error)
         {
@@ -107,7 +124,7 @@ const AddTransactions = () => {
 
                         <div>
                             <label className="block text-left text-gray-700 font-medium mb-2" id='transactionAccount'>Account</label>
-                            <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e => {setSelectedAccount(e.target.value)})}>
+                            <select className='block text-left text-gray-700 font-medium mb-2' value={selectedAccount} onChange={(e => {setSelectedAccount(e.target.value)})}>
                                 <option>- Please choose an account -</option>
                                     {accounts.map((option) => (
                                         <option key={option.account_id} value={option.account_id}>
@@ -162,7 +179,7 @@ const AddTransactions = () => {
                     <p className="mt-4 text-gray-600">
                         <span
                             className="text-blue-500 hover:underline cursor-pointer"
-                            onClick={() => nav("/transactions")}
+                            onClick={() => handlePageNavigation()}
                         >
                             Cancel
                         </span>

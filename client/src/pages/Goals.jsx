@@ -19,7 +19,7 @@ const Goals = () => {
                 'headers': {
                 'Authorization': 'Bearer ' + token
             }});
-            console.log(response);
+            console.log(response.data.message);
             setGoals(response.data.data.goals);
         } catch (error) {
             console.log(error.response?.message);

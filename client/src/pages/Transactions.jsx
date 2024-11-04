@@ -252,7 +252,7 @@ const Transactions = () => {
                         </button>
                         <button 
                             type="button" 
-                            onClick={() => nav("/add-transaction")} 
+                            onClick={() => nav("/add-transaction", {state: {from: location.pathname}})} 
                             className="px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition-colors"
                         >
                             Add Transaction

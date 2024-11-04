@@ -17,6 +17,7 @@ const Dashboard = () => {
         refreshToken();
         fetchTransactions();
         accountDetails();
+        clearLocalStorage();
     }, []);
 
     const accountDetails = async() => {
@@ -137,6 +138,10 @@ const Dashboard = () => {
           backgroundColor: outBoundBackgroundColor,
           hoverOffset: 4
         }]
+    }
+
+    const clearLocalStorage = () => {
+        localStorage.clear();
     }
 
     // console.log(userTransaction)
