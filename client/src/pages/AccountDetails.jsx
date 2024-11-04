@@ -23,7 +23,7 @@ const AccountDetails = () => {
                     }
                 }
             )
-            console.log(response);
+            console.log(response.data.message);
             const filteredByAccountId = response.data.data.userTransactionsData.filter(transaction => 
                 accountId ? transaction.accountId === accountId : true
             );

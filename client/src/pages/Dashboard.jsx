@@ -14,15 +14,9 @@ const Dashboard = () => {
     const nav = useNavigate();
 
     useEffect(() => {
-        refreshToken()
-    }, []);
-
-    useEffect(() => {
+        refreshToken();
         fetchTransactions();
-    }, []); // Add dependencies as needed
-
-    useEffect(() => {
-        accountDetails()
+        accountDetails();
     }, []);
 
     const accountDetails = async() => {
@@ -34,7 +28,7 @@ const Dashboard = () => {
                 'Authorization': 'Bearer ' + token
             }});
             
-            console.log(response);
+            console.log(response.data.message);
             setCategories(response.data.data.categories);
         } catch (error) {
             console.log(error.response?.message);

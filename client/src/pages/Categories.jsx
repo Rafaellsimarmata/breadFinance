@@ -74,7 +74,6 @@ const Categories = () => {
                                         <button 
                                             type="button" 
                                             className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
-                                            onClick={() => {console.log(categories.category_id)}}
                                         >
                                             Details
                                         </button>
