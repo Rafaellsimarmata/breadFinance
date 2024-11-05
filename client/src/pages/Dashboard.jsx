@@ -145,6 +145,7 @@ const Dashboard = () => {
     }
 
     // console.log(userTransaction)
+    console.log(isTransactionsLoading)
 
     return (
         <>

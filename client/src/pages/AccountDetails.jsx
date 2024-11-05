@@ -35,17 +35,19 @@ const AccountDetails = () => {
     }
 
     const getTotalBalance = () => {
+        let total = JSON.parse(localStorage.getItem('account_balance') || 0);
+
         return filteredTransactions.reduce((sum, transactions) => {
-          if (transactions.transaction_type === 'Inbound') {
-            return sum + (transactions.amount || 0);
-          } 
-          else if (transactions.transaction_type === 'Outbound') {
-            return sum - (transactions.amount || 0);
-          } 
-          else {
-            return sum;
-          }
-        }, 0);
+            if (transactions.transaction_type === 'Inbound') {
+                return sum + (transactions.amount || 0);
+            } 
+            else if (transactions.transaction_type === 'Outbound') {
+                return sum - (transactions.amount || 0);
+            } 
+            else {
+                return sum;
+            }
+        }, total);
     };
 
     return (
@@ -110,7 +112,8 @@ const AccountDetails = () => {
                                      <td className="px-4 py-2">
                                         {(() => {
                                             const date = new Date(transactions.createdAt);
-                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} 
+                                            ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
                                         })()}
                                     </td>
                                     <td className="px-4 py-2">{transactions.description}</td>

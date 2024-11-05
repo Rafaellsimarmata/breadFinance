@@ -45,7 +45,9 @@ const Accounts = () => {
     }
 
     const clearLocalStorage = () => {
-        localStorage.clear();
+        localStorage.removeItem('account_id');
+        localStorage.removeItem('account_name');
+        localStorage.removeItem('account_balance');
     }
 
     const getTotalBalance = () => {
@@ -107,7 +109,8 @@ const Accounts = () => {
                                     <td className="px-4 py-2">
                                         {(() => {
                                             const date = new Date(account.createdAt);
-                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} 
+                                            ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
                                         })()}
                                     </td>
                                     <td className="px-4 py-2">{account.account_name}</td>
@@ -120,6 +123,7 @@ const Accounts = () => {
                                             onClick={() => {
                                                 localStorage.setItem('account_id', account.account_id),
                                                 localStorage.setItem('account_name', account.account_name),
+                                                localStorage.setItem('account_balance', JSON.stringify(account.balance)),
                                                 nav('/account-details')
                                             }}
                                         >

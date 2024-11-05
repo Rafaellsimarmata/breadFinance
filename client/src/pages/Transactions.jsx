@@ -16,10 +16,14 @@ const Transactions = () => {
     const [minAmount, setMinAmount] = useState('');
     const [maxAmount, setMaxAmount] = useState('');
     const [isAscending, setIsAscending] = useState(true);
+    const [accounts, setAccounts] = useState([]);
+    const [selectedAccountId, setSelectedAccountId] = useState('');
     const nav = useNavigate();
 
     useEffect(() => {
         fetchTransactions();
+        accountsData();
+        checkAccountFromLocalStorage();
     }, []);
 
     const fetchTransactions = async() => {
@@ -40,6 +44,20 @@ const Transactions = () => {
         catch (error) {
             console.log(error.response?.message);
         }
+    };
+
+    const accountsData = async() => {
+        try {
+            const token = Cookies.get('token');
+            const response = await axios.get('https://bread-finance-api.vercel.app/api/accounts', {
+                'headers': {
+                'Authorization': 'Bearer ' + token
+            }});
+            console.log(response.data.message);
+            setAccounts(response.data.data.accounts);
+        } catch (error) {
+            console.log(error.response?.message);
+        }
     }
 
     useEffect(() => {
@@ -51,6 +69,8 @@ const Transactions = () => {
             const matchesTransactionType = !transactionType || item.transaction_type === transactionType;
 
             const matchesQuery = item.description.toLowerCase().includes(query.toLowerCase());
+
+            const matchesAccount = !selectedAccountId || item.accountId === selectedAccountId;
 
             const matchesDateRange = 
                 (!start && !end) || // No date filter applied
@@ -68,7 +88,7 @@ const Transactions = () => {
                     setDisplaySelectedFilter("Amount: " + minAmount + " - " + maxAmount);
                 }
 
-            return matchesQuery && matchesDateRange && matchesTransactionType && matchesAmountRange;
+            return matchesQuery && matchesDateRange && matchesTransactionType && matchesAmountRange && matchesAccount;
         });
 
         const sortedTransactions = filteredTransactions.sort((a, b) => {
@@ -86,7 +106,7 @@ const Transactions = () => {
             return 0;
         });
         setFilteredTransactions(sortedTransactions);
-    }, [query, transactions, startDate, endDate, selectedFilter, isAscending, transactionType, minAmount, maxAmount]);
+    }, [query, transactions, startDate, endDate, selectedFilter, isAscending, transactionType, minAmount, maxAmount, selectedAccountId]);
 
     const toggleFilterPopup = () => {
         setShowFilterPopup(!showFilterPopup);
@@ -102,6 +122,7 @@ const Transactions = () => {
             setShowFilterPopup(false);
         }
         else {
+            setDisplaySelectedFilter('None');
             resetFilters();
         }
     };
@@ -114,6 +135,22 @@ const Transactions = () => {
         setShowFilterPopup(false);
     };
 
+    const filterByAccountId = (account_id) => {
+        resetFilters();
+        const account = accounts.find(acc => acc.account_id === account_id);
+    
+        if (account) {
+            console.log(account.account_name);
+            setSelectedAccountId(account_id);
+            setDisplaySelectedFilter("Account: " + account.account_name);
+        } else {
+            setSelectedAccountId('');
+            setDisplaySelectedFilter("Account: All");
+        }
+    
+        setShowFilterPopup(false);
+    };
+
     const resetFilters = () => {
         console.log("Filters reset");
         setStartDate('');
@@ -121,6 +158,14 @@ const Transactions = () => {
         setTransactionType('');
         setMinAmount('');
         setMaxAmount('');
+        setSelectedAccountId('');
+    }
+
+    const checkAccountFromLocalStorage = async() => {
+        const tempAccount = localStorage.getItem('account_id')
+        if (tempAccount) {
+            setSelectedAccountId(tempAccount);
+        }
     }
 
     const getTotalBalance = () => {
@@ -165,6 +210,26 @@ const Transactions = () => {
                             <button className="block w-full mt-1 border rounded-md p-2 hover:bg-gray-100" value="Outbound" onClick={(e) => applyTransactionTypeFilter(e.target.value)}>
                                 Outbound
                             </button>
+                        </div>
+                    )}
+
+                    <button
+                        onClick={() => applyFilter('account_id')}
+                        className="w-full py-2 text-left hover:bg-gray-100 rounded-md px-3"
+                    >
+                    Account
+                    </button>
+
+                    {selectedFilter === 'account_id' && (
+                        <div className="mt-4">
+                            <select value={selectedAccountId} onChange={(e) => {filterByAccountId(e.target.value), localStorage.setItem('account_id', e.target.value)}}>
+                                <option>- Select an account -</option>
+                                    {accounts.map(account => (
+                                        <option key={account.account_id} value={account.account_id}>
+                                            {account.account_name}
+                                        </option>
+                                    ))}
+                            </select>
                         </div>
                     )}
 
@@ -291,7 +356,8 @@ const Transactions = () => {
                                      <td className="px-4 py-2">
                                         {(() => {
                                             const date = new Date(transactions.createdAt);
-                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
+                                            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')} 
+                                            ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`;
                                         })()}
                                     </td>
                                     <td className="px-4 py-2">{transactions.description}</td>
