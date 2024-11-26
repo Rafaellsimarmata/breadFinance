@@ -13,6 +13,7 @@ const Login = () => {
     e.preventDefault();
     try
     {
+      document.getElementById('submitButton').disabled = true;
       const {data} = await axios.post('https://bread-finance-api.vercel.app/api/auth/login', {
         email: email,
         password: password
@@ -32,6 +33,7 @@ const Login = () => {
     }
     catch (error)
     {
+      document.getElementById('submitButton').disabled = false;
       console.log(error.response?.data);
       setMessage(error.response?.data.message);
     };
@@ -68,13 +70,14 @@ const Login = () => {
                       <button
                           type="submit"
                           className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                          id='submitButton'
                       >
                           Login
                       </button>
                   </div>
               </form>
               <p className="mt-4 text-center text-gray-600">
-                  No account?{" "}
+                  Don&apos;t have account yet?{" "}
                   <span
                       className="text-blue-500 hover:underline cursor-pointer"
                       onClick={() => nav("/register")}

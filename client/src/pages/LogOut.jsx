@@ -13,6 +13,7 @@ const LogOut = () => {
     })
 
     const redirect = () => {
+        console.log("Logged out")
         nav("/");
     }
 }

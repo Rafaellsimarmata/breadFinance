@@ -16,6 +16,7 @@ const Register = () => {
     try
     {
       if (password == confirmPassword) {
+        document.getElementById('submitButton').disabled = true;
         const {data} = await axios.post('https://bread-finance-api.vercel.app/api/auth/register', {
             userName: userName,
             fullName: fullName,
@@ -41,6 +42,7 @@ const Register = () => {
     }
     catch (error)
     {
+      document.getElementById('submitButton').disabled = true;
       console.log(error.response?.data);
       setMessage(error.response?.data.message);
     };
@@ -106,6 +108,7 @@ const Register = () => {
                   <button
                       type="submit"
                       className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                      id='submitButton'
                   >
                       Register
                   </button>
