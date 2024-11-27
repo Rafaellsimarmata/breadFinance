@@ -22,7 +22,7 @@ const Login = () => {
       console.log(data.message);
       setMessage(data.message);
       const newToken = data.token;
-      Cookies.set('token', newToken, {expires: 1, secure: true});
+      Cookies.set('token', newToken, {expires: 3, secure: true});
 
       setTimeout(() => {
         setMessage("Redirecting...")
