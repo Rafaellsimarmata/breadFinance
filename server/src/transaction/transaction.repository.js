@@ -31,12 +31,22 @@ const createUserTransactionsDb = async (userId, transactionData) => {
         }
     })
 
+    var newBalance = 0
+
+    if(transactionData.transactionType == "Outbound"){
+        newBalance = getCurrBalance.balance - transactionData.amount
+    }else{
+        newBalance = getCurrBalance.balance + transactionData.amount
+    }
+    
+    // console.log(newBalance)
+
     await prisma.account.update({
         where: {
             account_id: transactionData.accountId,
           },
           data: {
-            balance: getCurrBalance.balance - transactionData.amount,
+            balance: newBalance,
           },
     })
     
