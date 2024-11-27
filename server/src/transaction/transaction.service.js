@@ -1,21 +1,12 @@
 import {
     findTransactionsByUserIdDb,
-    // findUserTransactionsByAccountIdDb,
-    // findUserTransactionsByCategoryIdDb,
-    // findUserTransactionsByCreatedTimeDb,
-    // findUserTransactionsByTypeDb,
-    // findUserTransactionsByFilters,
-    // findUserTransactionsByDescDb,
     createUserTransactionsDb,
     findUserTransactionsByFiltersDb,
-
+    deleteUserTransactionsDb
 
 } from "./transaction.repository.js"
 
 const addUserTransaction = async (userId, transactionData) => {
-    // still incorect
-    // need to validate first whether 
-    // the accountId or CategoryId belongs to userId
     const userTransaction = await createUserTransactionsDb(userId, transactionData)
     if (!userTransaction) throw new Error("failed adding user transaction data!")
     return userTransaction
@@ -27,13 +18,6 @@ const getUserTransactions = async (userId) => {
     return userTransactions
 }
 
-// const getUserTransactionsByDesc = async (userId, desc) => {
-//     const userTransactions = await findUserTransactionsByDescDb(userId, desc)
-//     if (!userTransactions) throw new Error("failed fetching user transactions data!")
-//     return userTransactions
-// }
-
-
 // TRY FILTER BY PARAM
 const filterUserTransactions = async (userId, filters) => {
     const filteredTransactions = await findUserTransactionsByFiltersDb(userId, filters);
@@ -41,12 +25,16 @@ const filterUserTransactions = async (userId, filters) => {
     return filteredTransactions;
 };
 
-
-
+const deleteUserTransaction = async (transactionId) => {
+    const deleteTransaction = await deleteUserTransactionsDb(transactionId)
+    if (!deleteTransaction) throw new Error("failed deleting transactions data!");
+    return deleteTransaction;
+}
 
 export {
     getUserTransactions,
     // getUserTransactionsByDesc,
     filterUserTransactions,
     addUserTransaction,
+    deleteUserTransaction
 }

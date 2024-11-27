@@ -9,75 +9,6 @@ const findTransactionsByUserIdDb = async (userId) => {
 
     return transactionsData
 }
-/*
-const findUserTransactionsByAccountIdDb = async (accountId, userId) => {
-    const transactionsData = await prisma.transaction.findMany({
-        where: {
-            accountId,
-            userId
-        }
-    })
-
-    return transactionsData
-}
-
-const findUserTransactionsByCategoryIdDb = async (categoryId, userId) => {
-    const transactionsData = await prisma.transaction.findMany({
-        where: {
-            categoryId,
-            userId
-        }
-    })
-
-    return transactionsData
-}
-
-const findUserTransactionsByCreatedTimeDb = async (startTime, endTime, userId) => {
-    const transactionsData = await prisma.transaction.findMany({
-        where: {
-            userId,
-            createdTime: {
-                gte: new Date('2024-01-01'),  // start date of the range
-                lte: new Date('2024-12-31'),  // end date of the range
-            }
-        }
-    })
-    return transactionsData
-}
-
-const findUserTransactionsByTypeDb = async (userId, transactionType) => {
-    const transactionsData = await prisma.transaction.findMany({
-        where: {
-            userId,
-            transaction_type: transactionType
-        }
-    })
-    return transactionsData
-}
-
-const findUserTransactionsByDescDb = async (userId, desc) => {
-    const transactionsData = await prisma.transaction.findMany({
-        where: {
-            userId,
-            description: {
-                contains: desc,  // equivalent to SQL's '%Desc%'
-                mode: 'insensitive'  // optional: case-insensitive search
-            }
-        }
-    })
-    return transactionsData
-}
-
-const findUserTransactionsByFilters = async (userId, filterData) => {
-    const transactionsData = await prisma.transaction.findMany({
-        where: {
-            userId,
-            ...filterData
-        }
-    })
-    return transactionsData
-}
-    */
 
 const createUserTransactionsDb = async (userId, transactionData) => {
     const transactionDataResult = await prisma.transaction.create({
@@ -159,6 +90,14 @@ const createUserTransactionsDb = async (userId, transactionData) => {
 };
 
 
+const deleteUserTransactionsDb = (transactionId) => {
+    return prisma.transaction.delete({
+         where: {
+             transaction_id: transactionId,
+         }
+     })
+ }
+
 
 export {
     findTransactionsByUserIdDb,
@@ -169,5 +108,6 @@ export {
     // findUserTransactionsByTypeDb,
     // findUserTransactionsByDescDb,
     createUserTransactionsDb,
-    findUserTransactionsByFiltersDb
+    findUserTransactionsByFiltersDb,
+    deleteUserTransactionsDb
 }

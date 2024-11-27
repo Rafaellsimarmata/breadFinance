@@ -1,9 +1,8 @@
 import { Router } from 'express';
 import {
     getUserTransactions,
-    // getUserTransactionsByDesc,
-    // filterUserTransactions,
-    // addUserTransaction
+    addUserTransaction,
+    deleteUserTransaction,
     filterUserTransactions,
 
 } from "./transaction.service.js";
@@ -33,7 +32,6 @@ router.get("/transaction", authenticateToken, (req, res) => {
     }
 })
 
-
 // TRY FILTER BY PARAM
 router.get('/transactions', authenticateToken, async (req, res) => {
     //  query parameters
@@ -53,5 +51,48 @@ router.get('/transactions', authenticateToken, async (req, res) => {
         });
     }
 });
+
+router.delete('/transaction/:transactionId', authenticateToken, async (req, res) => {
+    const transactionId = req.params.accId;
+
+    try {
+        const transactionDataDelete = await deleteUserTransaction(transactionId)
+
+        res.status(200).json({
+            status: 200,
+            message: "User Accounts Deleted",
+            data: {
+                transactionDataDelete
+            }
+        })
+    } catch (err) {
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
+    }
+});
+
+router.post("/transaction", authenticateToken, async (req, res) => {
+    const { userId } = req.user
+    const transactionData = req.body
+
+    try {
+        const userTransactionData = await addUserTransaction(userId, transactionData)
+
+        res.status(201).json({
+            status: 201,
+            message: "User Transaction data created successfully",
+            data: {
+                userTransactionData
+            }
+        })
+    } catch (err) {
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
+    }
+})
 
 export default router
