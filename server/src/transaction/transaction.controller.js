@@ -38,20 +38,17 @@ router.get('/transactions', authenticateToken, async (req, res) => {
     const { type, description, startDate, endDate, minAmount, maxAmount, accountId } = req.query;
 
     try {
-        const userTransactionData = await addUserTransaction(userId, transactionData)
-
-        res.status(201).json({
-            status: 201,
-            message: "User Transaction data created successfully",
-            data: {
-                userTransactionData
-            }
-        })
+        const transactions = await filterUserTransactions({ type, description, startDate, endDate, minAmount, maxAmount, accountId });
+        res.status(200).json({
+            status: 200,
+            message: 'Transactions retrieved successfully',
+            data: transactions
+        });
     } catch (err) {
         return res.status(401).json({
             status: 401,
             message: err.message
-        })
+        });
     }
 })
 
