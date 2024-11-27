@@ -10,12 +10,11 @@ import authenticateToken from '../middleware/token.auth.js';
 
 const router = Router()
 
-// CHANGE ENDPOINT 
-router.get("/transaction", authenticateToken, (req, res) => {
+router.get("/transactions", authenticateToken, async (req, res) => {
     const { userId } = req.user
 
     try {
-        const userTransactionsData = getUserTransactions(userId)
+        const userTransactionsData = await getUserTransactions(userId)
 
         res.status(200).json({
             status: 200,
@@ -32,25 +31,29 @@ router.get("/transaction", authenticateToken, (req, res) => {
     }
 })
 
+
 // TRY FILTER BY PARAM
 router.get('/transactions', authenticateToken, async (req, res) => {
     //  query parameters
     const { type, description, startDate, endDate, minAmount, maxAmount, accountId } = req.query;
 
     try {
-        const transactions = await filterUserTransactions({ type, description, startDate, endDate, minAmount, maxAmount, accountId });
-        res.status(200).json({
-            status: 200,
-            message: 'Transactions retrieved successfully',
-            data: transactions
-        });
+        const userTransactionData = await addUserTransaction(userId, transactionData)
+
+        res.status(201).json({
+            status: 201,
+            message: "User Transaction data created successfully",
+            data: {
+                userTransactionData
+            }
+        })
     } catch (err) {
-        res.status(400).json({
-            status: 400,
+        return res.status(401).json({
+            status: 401,
             message: err.message
-        });
+        })
     }
-});
+})
 
 router.delete('/transaction/:transactionId', authenticateToken, async (req, res) => {
     const transactionId = req.params.accId;

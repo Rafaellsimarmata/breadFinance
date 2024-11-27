@@ -33,7 +33,10 @@ router.post("/login", validate, async (req, res) => {
             message: "account login successfully"
         });
     } catch (err) {
-        return res.status(401).send(err.message)
+        return res.status(401).json({
+            status: 401,
+            message: err.message
+        })
     }
 })
 

@@ -45,7 +45,18 @@ const userDeleteCategoryDb = (categoryId) => {
     })
 }
 
+const getCategoryByCategoryIdDb = (categoryId) => {
+    const categoryData = prisma.category.findUnique({
+        where : {category_id : categoryId}
+    })
+    return categoryData
+ }
 
 
-
-export {getCategoriesByUserIdDb, addCategoryByUserIdDb, userUpdateCategoryDb, userDeleteCategoryDb}
+export {
+    getCategoryByCategoryIdDb,
+    getCategoriesByUserIdDb, 
+    addCategoryByUserIdDb, 
+    userUpdateCategoryDb, 
+    userDeleteCategoryDb
+}

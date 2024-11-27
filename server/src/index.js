@@ -6,6 +6,7 @@ import userController from "./user/user.controller.js"
 import accountController from "./account/accout.controller.js"
 import transactionController from "./transaction/transaction.controller.js"
 import categoryController from "./category/category.controller.js"
+// import goalController from "./goal/goal.controller.js"
 import goalController from "./goal/goal.controller.js"
 
 // import unknownEndPoint from './middleware/unknownEndpoint.js';

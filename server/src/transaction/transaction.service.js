@@ -1,3 +1,5 @@
+import { getAccountByAccountIdDb } from "../account/account.repository.js"
+import { getCategoryByCategoryIdDb } from "../category/category.repository.js"
 import {
     findTransactionsByUserIdDb,
     createUserTransactionsDb,
@@ -7,6 +9,16 @@ import {
 } from "./transaction.repository.js"
 
 const addUserTransaction = async (userId, transactionData) => {
+    // check if account id belong to valid user id 
+    const accountData = await getAccountByAccountIdDb(transactionData.accountId)
+    if (!accountData) throw new Error("Account not found!")
+    if(accountData.userId != userId) throw new Error("Unauthorized user!")
+
+    // check if account id belong to valid user id 
+    const categoryData = await getCategoryByCategoryIdDb(transactionData.categoryId)
+    if (!categoryData) throw new Error("Category not found!")
+    if(categoryData.userId != userId) throw new Error("Unauthorized user!")
+
     const userTransaction = await createUserTransactionsDb(userId, transactionData)
     if (!userTransaction) throw new Error("failed adding user transaction data!")
     return userTransaction
