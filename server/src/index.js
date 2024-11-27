@@ -20,6 +20,7 @@ app.use(cors())
 app.get('/', (req, res) => {
   res.send('BreadFinance api!')
 })
+// asd
 
 app.use('/api/auth/', authController)
 app.use('/api/', userController)
