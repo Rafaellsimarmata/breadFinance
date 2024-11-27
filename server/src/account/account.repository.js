@@ -41,8 +41,6 @@ const userUpdateAccountDb = (accountId, accountData) => {
     return userAccountUpdate
 }
 
-
-
 const userDeleteAccountDb = (accountId) => {
    return prisma.account.delete({
         where: {
