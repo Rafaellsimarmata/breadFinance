@@ -14,6 +14,7 @@ const Login = () => {
     try
     {
       document.getElementById('submitButton').disabled = true;
+      setMessage("Logging in...")
       const {data} = await axios.post('https://bread-finance-api.vercel.app/api/auth/login', {
         email: email,
         password: password

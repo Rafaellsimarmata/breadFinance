@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const Goals = () => {
     const [goals, setGoals] = useState([]);
+    const [goalToDelete, setGoalToDelete] = useState(null);
+    const [goalToDeleteName, setGoalToDeleteName] = useState(null);
     const nav = useNavigate();
 
     useEffect(() => {
@@ -23,6 +25,26 @@ const Goals = () => {
             setGoals(response.data.data.goals);
         } catch (error) {
             console.log(error.response?.message);
+        }
+    }
+
+    const deleteGoal = async(goal_id) => {
+        try {
+            const token = Cookies.get('token');
+            const response = await axios.delete(`https://bread-finance-api.vercel.app/api/goal/${goal_id}`,
+                {
+                    'headers':
+                    {
+                        'Authorization': 'Bearer ' + token
+                    }
+                }
+            )
+            console.log(response.data.message)
+            setGoalToDelete(null)
+            setGoalToDeleteName(null)
+            getGoals()
+        } catch (error) {
+            console.error(error.response)
         }
     }
 
@@ -92,7 +114,10 @@ const Goals = () => {
                                         <button  
                                             type="button" 
                                             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
-                                            onClick={() => {}}
+                                            onClick={() => {
+                                                setGoalToDelete(goal.goal_id),
+                                                setGoalToDeleteName(goal.description)
+                                            }}
                                         >
                                             Delete
                                         </button>
@@ -101,6 +126,32 @@ const Goals = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {goalToDelete && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div className="bg-white rounded-lg p-6 w-96">
+                            <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
+                            <p>Are you sure you want to delete goal: {goalToDeleteName}</p>
+                            <div className="mt-4 flex justify-end space-x-4">
+                                <button
+                                    onClick={() => deleteGoal(goalToDelete)}
+                                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
+                                >
+                                    Yes, Delete
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setGoalToDelete(null),
+                                        setGoalToDeleteName(null)
+                                    }}
+                                    className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 </div>
             </div>
         </>        

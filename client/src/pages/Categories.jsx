@@ -5,13 +5,15 @@ import { useNavigate } from "react-router-dom";
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
+    const [categoryToDelete, setCategoryToDelete] = useState(null);
+    const [categoryToDeleteName, setCategoryToDeleteName] = useState(null);
     const nav = useNavigate();
 
     useEffect(() => {
-        accountDetails()
+        categoriesDetails()
     }, []);
 
-    const accountDetails = async() => {
+    const categoriesDetails = async() => {
         try {
             const token = Cookies.get('token')
 
@@ -22,7 +24,26 @@ const Categories = () => {
             console.log(response.data.message);
             setCategories(response.data.data.categories);
         } catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
+        }
+    }
+
+    const deleteCategory = async(category_id) => {
+        try {
+            const token = Cookies.get('token')
+            const response = await axios.delete(`https://bread-finance-api.vercel.app/api/category/${category_id}`,
+                {
+                    'headers': {
+                        'Authorization': 'Bearer ' + token
+                    }
+                }
+            )
+            console.log(response.data.message)
+            setCategoryToDelete(null)
+            setCategoryToDeleteName(null)
+            categoriesDetails()
+        } catch (error) {
+            console.error(error.response?.data.message)
         }
     }
 
@@ -80,6 +101,10 @@ const Categories = () => {
                                         <button 
                                             type="button" 
                                             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                                            onClick={() => {
+                                                setCategoryToDelete(categories.category_id),
+                                                setCategoryToDeleteName(categories.category_name)
+                                            }}
                                         >
                                             Delete
                                         </button>
@@ -88,6 +113,32 @@ const Categories = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {categoryToDelete && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div className="bg-white rounded-lg p-6 w-96">
+                            <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
+                            <p>Are you sure you want to delete category: {categoryToDeleteName}</p>
+                            <div className="mt-4 flex justify-end space-x-4">
+                                <button
+                                    onClick={() => deleteCategory(categoryToDelete)}
+                                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
+                                >
+                                    Yes, Delete
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setCategoryToDelete(null),
+                                        setCategoryToDeleteName(null)
+                                    }}
+                                    className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 </div>
             </div>
 

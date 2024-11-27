@@ -11,9 +11,10 @@ const AddAccount = () => {
   const nav = useNavigate();
   
   const newAccount = async(e) => {
-    e.preventDefault();
+    e.preventDefault()
     try
     {
+        setMessage("Adding account...")
         const token = Cookies.get('token');
         const response = await axios.post('https://bread-finance-api.vercel.app/api/account', 
         {

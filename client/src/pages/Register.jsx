@@ -17,6 +17,7 @@ const Register = () => {
     {
       if (password == confirmPassword) {
         document.getElementById('submitButton').disabled = true;
+        setMessage("Registering...")
         const {data} = await axios.post('https://bread-finance-api.vercel.app/api/auth/register', {
             userName: userName,
             fullName: fullName,
@@ -89,7 +90,7 @@ const Register = () => {
                   <input
                       type="password"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Min 8 characters, including a special character"
+                      placeholder="Min 8 characters, a special character"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                   />
@@ -99,7 +100,7 @@ const Register = () => {
                   <input
                       type="password"
                       className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Min 8 characters, including a special character"
+                      placeholder="Min 8 characters, a special character"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                   />

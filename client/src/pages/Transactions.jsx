@@ -18,6 +18,8 @@ const Transactions = () => {
     const [isAscending, setIsAscending] = useState(true);
     const [accounts, setAccounts] = useState([]);
     const [selectedAccountId, setSelectedAccountId] = useState('');
+    const [transactionToDelete, setTransactionToDelete] = useState(null);
+    const [transactionToDeleteName, setTransactionToDeleteName] = useState(null);
     const nav = useNavigate();
 
     useEffect(() => {
@@ -42,9 +44,28 @@ const Transactions = () => {
 
         } 
         catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
         }
     };
+
+    const deleteTransaction = async(transactionId) => {
+        try {
+            const token = Cookies.get('token');
+            const response = await axios.delete(`https://bread-finance-api.vercel.app/api/transaction/${transactionId}`,
+                {
+                    'headers': {
+                        'Authorization': 'Bearer ' + token
+                    }
+                }
+            )
+            console.log(response.data.message)
+            setTransactionToDelete(null)
+            setTransactionToDeleteName(null)
+            fetchTransactions()
+        } catch (error) {
+            console.error(error.response?.data.message)
+        }
+    }
 
     const accountsData = async() => {
         try {
@@ -56,7 +77,7 @@ const Transactions = () => {
             console.log(response.data.message);
             setAccounts(response.data.data.accounts);
         } catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
         }
     }
 
@@ -162,8 +183,8 @@ const Transactions = () => {
     }
 
     const checkAccountFromLocalStorage = async() => {
-        const tempAccount = localStorage.getItem('account_id')
-        if (tempAccount) {
+        if (localStorage.getItem('account_id')) {
+            const tempAccount = localStorage.getItem('account_id')
             setSelectedAccountId(tempAccount);
         }
     }
@@ -373,6 +394,10 @@ const Transactions = () => {
                                         <button 
                                             type="button" 
                                             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                                            onClick={() => {
+                                                setTransactionToDelete(transactions.transaction_id),
+                                                setTransactionToDeleteName(transactions.description)
+                                            }}
                                         >
                                             Delete
                                         </button>
@@ -381,6 +406,32 @@ const Transactions = () => {
                             ))}
                         </tbody>
                     </table>
+
+                    {transactionToDelete && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div className="bg-white rounded-lg p-6 w-96">
+                            <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
+                            <p>Are you sure you want to delete transaction: {transactionToDeleteName}</p>
+                            <div className="mt-4 flex justify-end space-x-4">
+                                <button
+                                    onClick={() => deleteTransaction(transactionToDelete)}
+                                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
+                                >
+                                    Yes, Delete
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setTransactionToDelete(null),
+                                        setTransactionToDeleteName(null)
+                                    }}
+                                    className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 </div>
             </div>
         </>        

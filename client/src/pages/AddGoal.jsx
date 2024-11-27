@@ -11,9 +11,10 @@ const AddGoal = () => {
   const nav = useNavigate();
   
   const newGoal = async(e) => {
-    e.preventDefault();
+    e.preventDefault()
     try
     {
+        setMessage("Adding goal")
         const token = Cookies.get('token');
         const response = await axios.post('https://bread-finance-api.vercel.app/api/goal', 
         {

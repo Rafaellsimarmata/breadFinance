@@ -26,7 +26,7 @@ const Accounts = () => {
             setAccountToDeleteName(null);
             accountsData();
         } catch (error) {
-            console.log(error.response?.data.message);
+            console.error(error.response?.data.message);
         }
     }
 
@@ -40,7 +40,7 @@ const Accounts = () => {
             console.log(response.data.message);
             setAccounts(response.data.data.accounts);
         } catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
         }
     }
 

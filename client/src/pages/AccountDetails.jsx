@@ -6,9 +6,13 @@ import { useNavigate } from "react-router-dom";
 const AccountDetails = () => {
     const nav = useNavigate();
     const [filteredTransactions, setFilteredTransactions] = useState([]);
+    const [accounts, setAccounts] = useState([]);
+    const [transactionToDelete, setTransactionToDelete] = useState(null);
+    const [transactionToDeleteName, setTransactionToDeleteName] = useState(null);
 
     useEffect(() => {
         fetchTransactions();
+        accountDetailsData();
     }, []);
 
     const fetchTransactions = async() => {
@@ -24,9 +28,7 @@ const AccountDetails = () => {
                 }
             );
             console.log(response.data.message);
-            const filteredByAccountId = response.data.data.userTransactionsData.filter(transaction => 
-                accountId ? transaction.accountId === accountId : true
-            );
+            const filteredByAccountId = response.data.data.userTransactionsData.filter(transaction => accountId ? transaction.accountId === accountId : true);
             setFilteredTransactions(filteredByAccountId);
         } 
         catch (error) {
@@ -34,21 +36,57 @@ const AccountDetails = () => {
         }
     }
 
-    const getTotalBalance = () => {
-        let total = JSON.parse(localStorage.getItem('account_balance') || 0);
+    const accountDetailsData = async() => {
+        try {
+            const token = Cookies.get('token');
+            const accountId = localStorage.getItem('account_id')
+            const response = await axios.get('https://bread-finance-api.vercel.app/api/accounts', {
+                'headers': {
+                'Authorization': 'Bearer ' + token
+            }});
+            console.log(response.data.message);
+            const filteredByAccountId = response.data.data.accounts.filter(account => accountId ? account.account_id === accountId : true)
+            setAccounts(filteredByAccountId);
+        } catch (error) {
+            console.error(error.response?.message);
+        }
+    }
 
-        return filteredTransactions.reduce((sum, transactions) => {
-            if (transactions.transaction_type === 'Inbound') {
-                return sum + (transactions.amount || 0);
-            } 
-            else if (transactions.transaction_type === 'Outbound') {
-                return sum - (transactions.amount || 0);
-            } 
-            else {
-                return sum;
-            }
-        }, total);
-    };
+    const deleteTransaction = async(transactionId) => {
+        try {
+            const token = Cookies.get('token');
+            const response = await axios.delete(`https://bread-finance-api.vercel.app/api/transaction/${transactionId}`,
+                {
+                    'headers': {
+                        'Authorization': 'Bearer ' + token
+                    }
+                }
+            )
+            console.log(response.data.message)
+            setTransactionToDelete(null)
+            setTransactionToDeleteName(null)
+            fetchTransactions()
+            accountDetailsData()
+        } catch (error) {
+            console.error(error.response?.data.message)
+        }
+    }
+
+    // const getTotalBalance = () => {
+    //     let total = JSON.parse(localStorage.getItem('account_balance') || 0);
+
+    //     return filteredTransactions.reduce((sum, transactions) => {
+    //         if (transactions.transaction_type === 'Inbound') {
+    //             return sum + (transactions.amount || 0);
+    //         } 
+    //         else if (transactions.transaction_type === 'Outbound') {
+    //             return sum - (transactions.amount || 0);
+    //         } 
+    //         else {
+    //             return sum;
+    //         }
+    //     }, total);
+    // };
 
     return (
         <>
@@ -59,7 +97,7 @@ const AccountDetails = () => {
                     </div>
                     <div className="balance-info text-center mb-4">
                         <div className="balance-item">
-                            <h2 className=" text-green-500 text-2xl font-semibold">IDR {getTotalBalance()}</h2>
+                            <h2 className=" text-green-500 text-2xl font-semibold">IDR {accounts.map((account) => (account.balance))}</h2>
                             <p className="text-gray-600">Total Balance</p>
                         </div>
                     </div>
@@ -129,6 +167,10 @@ const AccountDetails = () => {
                                         <button 
                                             type="button" 
                                             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                                            onClick={() => {
+                                                setTransactionToDelete(transactions.transaction_id),
+                                                setTransactionToDeleteName(transactions.description)
+                                            }}
                                         >
                                             Delete
                                         </button>
@@ -137,6 +179,31 @@ const AccountDetails = () => {
                             ))}
                         </tbody>
                     </table>
+                    {transactionToDelete && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div className="bg-white rounded-lg p-6 w-96">
+                            <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
+                            <p>Are you sure you want to delete transaction: {transactionToDeleteName}</p>
+                            <div className="mt-4 flex justify-end space-x-4">
+                                <button
+                                    onClick={() => deleteTransaction(transactionToDelete)}
+                                    className="px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 transition-colors"
+                                >
+                                    Yes, Delete
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        setTransactionToDelete(null),
+                                        setTransactionToDeleteName(null)
+                                    }}
+                                    className="px-4 py-2 bg-gray-500 text-white font-semibold rounded-md hover:bg-gray-600 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 </div>
             </div>
         </>        
