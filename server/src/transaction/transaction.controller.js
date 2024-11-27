@@ -60,7 +60,7 @@ router.delete('/transaction/:transactionId', authenticateToken, async (req, res)
 
         res.status(200).json({
             status: 200,
-            message: "User Accounts Deleted",
+            message: "transaction Accounts Deleted",
             data: {
                 transactionDataDelete
             }
