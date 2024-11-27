@@ -18,7 +18,7 @@ const AccountDetails = () => {
     const fetchTransactions = async() => {
         try {
             const token = Cookies.get('token');
-            const accountId = localStorage.getItem('account_id')
+            const accountId = sessionStorage.getItem('account_id')
             const response = await axios.get('https://bread-finance-api.vercel.app/api/transactions', 
                 {
                     'headers' :
@@ -32,14 +32,14 @@ const AccountDetails = () => {
             setFilteredTransactions(filteredByAccountId);
         } 
         catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
         }
     }
 
     const accountDetailsData = async() => {
         try {
             const token = Cookies.get('token');
-            const accountId = localStorage.getItem('account_id')
+            const accountId = sessionStorage.getItem('account_id')
             const response = await axios.get('https://bread-finance-api.vercel.app/api/accounts', {
                 'headers': {
                 'Authorization': 'Bearer ' + token
@@ -72,28 +72,12 @@ const AccountDetails = () => {
         }
     }
 
-    // const getTotalBalance = () => {
-    //     let total = JSON.parse(localStorage.getItem('account_balance') || 0);
-
-    //     return filteredTransactions.reduce((sum, transactions) => {
-    //         if (transactions.transaction_type === 'Inbound') {
-    //             return sum + (transactions.amount || 0);
-    //         } 
-    //         else if (transactions.transaction_type === 'Outbound') {
-    //             return sum - (transactions.amount || 0);
-    //         } 
-    //         else {
-    //             return sum;
-    //         }
-    //     }, total);
-    // };
-
     return (
         <>
             <div className="min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300 p-8">
                 <header className="bg-white rounded-lg shadow-lg p-6 mb-8">
                     <div className="text-center">
-                        <h1 className="text-3xl font-bold mb-4">Account {localStorage.getItem('account_name')} Details</h1>
+                        <h1 className="text-3xl font-bold mb-4">Account {accounts.map((account) => {account.account_name})} Details</h1>
                     </div>
                     <div className="balance-info text-center mb-4">
                         <div className="balance-item">

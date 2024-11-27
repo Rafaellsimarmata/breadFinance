@@ -23,7 +23,7 @@ const Home = () => {
                 Register
             </button>
         </div>
-</div>
+    </div>
     )
 }
 

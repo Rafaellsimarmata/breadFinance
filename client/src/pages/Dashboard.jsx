@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import DoughnutChart from "../component/Doughnut";
+import DoughnutChart from "../components/Doughnut";
 
 const Dashboard = () => {
     const [name, setName] = useState('');
@@ -17,7 +17,9 @@ const Dashboard = () => {
         refreshToken();
         fetchTransactions();
         accountDetails();
-        clearLocalStorage();
+        if (sessionStorage.getItem('account_id')) {
+            clearSessionStorage();
+        }
     }, []);
 
     const accountDetails = async() => {
@@ -32,7 +34,7 @@ const Dashboard = () => {
             console.log(response.data.message);
             setCategories(response.data.data.categories);
         } catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
         }
     }
 
@@ -71,7 +73,7 @@ const Dashboard = () => {
         } 
         catch (error) 
         {
-            console.log(error.response?.message)
+            console.error(error.response?.message)
         }
     }
 
@@ -140,8 +142,8 @@ const Dashboard = () => {
         }]
     }
 
-    const clearLocalStorage = () => {
-        localStorage.clear();
+    const clearSessionStorage = () => {
+        sessionStorage.removeItem('account_id');
     }
 
     // console.log(userTransaction)

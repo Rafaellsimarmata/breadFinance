@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 
 const AddCategory = () => {
   const [categoryName, setCategoryName] = useState('');
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [message, setMessage] = useState('');
   const nav = useNavigate();
   
@@ -12,6 +13,8 @@ const AddCategory = () => {
     e.preventDefault();
     try
     {
+        setButtonDisabled(true);
+        setMessage("Adding category...");
         const token = Cookies.get('token');
         const response = await axios.post('https://bread-finance-api.vercel.app/api/category', 
         {
@@ -30,8 +33,9 @@ const AddCategory = () => {
     }
     catch (error)
     {
-      console.log(error.response?.data);
-      setMessage(error.response?.data.message);
+        setButtonDisabled(false);
+        console.error(error.response?.data);
+        setMessage(error.response?.data.message);
     };
   }
 
@@ -57,11 +61,17 @@ const AddCategory = () => {
                         />
                     </div>
                     <div>
-                      <button
-                          type="submit"
-                          className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                      >
-                          Add
+                        <button
+                            type="submit"
+                            className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                                buttonDisabled
+                                ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
+                                : "bg-blue-500 hover:bg-blue-600"
+                            }`}
+                            id='submitButton'
+                            disabled={buttonDisabled}
+                        >
+                            Add
                       </button>
                   </div>
                 </form>

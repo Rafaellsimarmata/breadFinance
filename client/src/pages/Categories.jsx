@@ -15,8 +15,7 @@ const Categories = () => {
 
     const categoriesDetails = async() => {
         try {
-            const token = Cookies.get('token')
-
+            const token = Cookies.get('token');
             const response = await axios.get('https://bread-finance-api.vercel.app/api/categories', {
                 'headers': {
                 'Authorization': 'Bearer ' + token
@@ -30,7 +29,7 @@ const Categories = () => {
 
     const deleteCategory = async(category_id) => {
         try {
-            const token = Cookies.get('token')
+            const token = Cookies.get('token');
             const response = await axios.delete(`https://bread-finance-api.vercel.app/api/category/${category_id}`,
                 {
                     'headers': {
@@ -38,12 +37,12 @@ const Categories = () => {
                     }
                 }
             )
-            console.log(response.data.message)
-            setCategoryToDelete(null)
-            setCategoryToDeleteName(null)
-            categoriesDetails()
+            console.log(response.data.message);
+            setCategoryToDelete(null);
+            setCategoryToDeleteName(null);
+            categoriesDetails();
         } catch (error) {
-            console.error(error.response?.data.message)
+            console.error(error.response?.data.message);
         }
     }
 
@@ -141,7 +140,6 @@ const Categories = () => {
                 )}
                 </div>
             </div>
-
         </>        
     )
 }

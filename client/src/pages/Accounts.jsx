@@ -11,7 +11,9 @@ const Accounts = () => {
 
     useEffect(() => {
         accountsData();
-        clearLocalStorage();
+        if (sessionStorage.getItem('account_id')) {
+            clearSessionStorage();
+        }
     }, []);
 
     const deleteAccount = async(account_id) => {
@@ -44,10 +46,8 @@ const Accounts = () => {
         }
     }
 
-    const clearLocalStorage = () => {
-        localStorage.removeItem('account_id');
-        localStorage.removeItem('account_name');
-        localStorage.removeItem('account_balance');
+    const clearSessionStorage = () => {
+        sessionStorage.removeItem('account_id');
     }
 
     const getTotalBalance = () => {
@@ -121,9 +121,7 @@ const Accounts = () => {
                                             type="button" 
                                             className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
                                             onClick={() => {
-                                                localStorage.setItem('account_id', account.account_id),
-                                                localStorage.setItem('account_name', account.account_name),
-                                                localStorage.setItem('account_balance', JSON.stringify(account.balance)),
+                                                sessionStorage.setItem('account_id', account.account_id),
                                                 nav('/account-details')
                                             }}
                                         >

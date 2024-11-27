@@ -8,6 +8,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [message, setMessage] = useState('');
   const nav = useNavigate();
   
@@ -16,16 +17,16 @@ const Register = () => {
     try
     {
       if (password == confirmPassword) {
-        document.getElementById('submitButton').disabled = true;
-        setMessage("Registering...")
-        const {data} = await axios.post('https://bread-finance-api.vercel.app/api/auth/register', {
+        setButtonDisabled(true);
+        setMessage("Registering...");
+        const response = await axios.post('https://bread-finance-api.vercel.app/api/auth/register', {
             userName: userName,
             fullName: fullName,
             email: email,
             password: password
           });
-        console.log(data);
-        setMessage(data.message);
+        console.log(response.data.message);
+        setMessage(response.data.message);
 
         setTimeout(() => {
           setMessage("Redirecting to login page...")
@@ -37,14 +38,14 @@ const Register = () => {
       }
       else
       {
-        console.log("Password does not match");
+        console.warn("Password does not match");
         setMessage("Password does not match");
       }
     }
     catch (error)
     {
-      document.getElementById('submitButton').disabled = true;
-      console.log(error.response?.data);
+      setButtonDisabled(false)
+      console.error(error.response?.data.message);
       setMessage(error.response?.data.message);
     };
   }
@@ -108,8 +109,13 @@ const Register = () => {
               <div>
                   <button
                       type="submit"
-                      className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                      className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                        buttonDisabled
+                          ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
+                          : "bg-blue-500 hover:bg-blue-600"
+                      }`}
                       id='submitButton'
+                      disabled={buttonDisabled}
                   >
                       Register
                   </button>

@@ -6,7 +6,8 @@ const LogOut = () => {
     const nav = useNavigate();
 
     Cookies.remove('token');
-    localStorage.clear();
+    Cookies.remove('rememberMe');
+    sessionStorage.clear();
 
     useEffect(() => {
         redirect();

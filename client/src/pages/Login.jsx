@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [message, setMessage] = useState('');
   const nav = useNavigate();
 
@@ -13,16 +15,17 @@ const Login = () => {
     e.preventDefault();
     try
     {
-      document.getElementById('submitButton').disabled = true;
+      setButtonDisabled(true);
       setMessage("Logging in...")
-      const {data} = await axios.post('https://bread-finance-api.vercel.app/api/auth/login', {
+      const response = await axios.post('https://bread-finance-api.vercel.app/api/auth/login', {
         email: email,
         password: password
       });
-      console.log(data.message);
-      setMessage(data.message);
-      const newToken = data.token;
+      console.log(response.data.message);
+      setMessage(response.data.message);
+      const newToken = response.data.token;
       Cookies.set('token', newToken, {expires: 3, secure: true});
+      Cookies.set('rememberMe', rememberMe, {expires: 3, secure: true});
 
       setTimeout(() => {
         setMessage("Redirecting...")
@@ -34,8 +37,8 @@ const Login = () => {
     }
     catch (error)
     {
-      document.getElementById('submitButton').disabled = false;
-      console.log(error.response?.data);
+      setButtonDisabled(false);
+      console.error(error.response?.data.message);
       setMessage(error.response?.data.message);
     };
   }
@@ -62,18 +65,34 @@ const Login = () => {
                       <input
                           type="password"
                           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          placeholder="******"
+                          placeholder="********"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                       />
                   </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="rememberMe"
+                      className="mr-2"
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <label htmlFor="rememberMe" className="text-gray-700">
+                      Remember Me
+                    </label>
+                  </div>
                   <div>
                       <button
-                          type="submit"
-                          className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
-                          id='submitButton'
+                        type="submit"
+                        className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                          buttonDisabled
+                            ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
+                            : "bg-blue-500 hover:bg-blue-600"
+                        }`}
+                        id='submitButton'
+                        disabled={buttonDisabled}
                       >
-                          Login
+                        Login
                       </button>
                   </div>
               </form>

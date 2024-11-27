@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import useHandleTabClose from './hooks/HandleTabClose.js';
 import {
   Dashboard,
   Home,
@@ -18,24 +20,29 @@ import {
 } from './pages/route.js';
 
 function App() {
+  useHandleTabClose()
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/Accounts" element={<Accounts />} />
-        <Route path='/Add-Account' element={<AddAccount />}></Route>
-        <Route path='/LogOut' element={<LogOut />}></Route>
-        <Route path='/Profile' element={<Profile />}></Route>
-        <Route path='/Transactions' element={<Transactions />} ></Route>
-        <Route path='/Add-Transaction' element={<AddTransaction />} ></Route>
-        <Route path='/Categories' element={<Categories />}></Route>
-        <Route path='/Add-Category' element={<AddCategory />} ></Route>
-        <Route path='/Account-Details' element={<AccountDetails />}></Route>
-        <Route path='/Goals' element={<Goals />}></Route>
-        <Route path='/Add-Goal' element={<AddGoal />}></Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/accounts" element={<Accounts />} />
+          <Route path='/add-account' element={<AddAccount />}></Route>
+          <Route path='/logout' element={<LogOut />}></Route>
+          <Route path='/profile' element={<Profile />}></Route>
+          <Route path='/transactions' element={<Transactions />} ></Route>
+          <Route path='/add-transaction' element={<AddTransaction />} ></Route>
+          <Route path='/categories' element={<Categories />}></Route>
+          <Route path='/add-category' element={<AddCategory />} ></Route>
+          <Route path='/account-details' element={<AccountDetails />}></Route>
+          <Route path='/goals' element={<Goals />}></Route>
+          <Route path='/add-goal' element={<AddGoal />}></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   )

@@ -25,7 +25,7 @@ const Transactions = () => {
     useEffect(() => {
         fetchTransactions();
         accountsData();
-        checkAccountFromLocalStorage();
+        checkAccountFromSessionStorage();
     }, []);
 
     const fetchTransactions = async() => {
@@ -182,9 +182,9 @@ const Transactions = () => {
         setSelectedAccountId('');
     }
 
-    const checkAccountFromLocalStorage = async() => {
-        if (localStorage.getItem('account_id')) {
-            const tempAccount = localStorage.getItem('account_id')
+    const checkAccountFromSessionStorage = async() => {
+        if (sessionStorage.getItem('account_id')) {
+            const tempAccount = sessionStorage.getItem('account_id')
             setSelectedAccountId(tempAccount);
         }
     }

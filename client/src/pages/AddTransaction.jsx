@@ -13,13 +13,14 @@ const AddTransactions = () => {
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState('');
   const [previousPath, setPreviousPath] = useState(null);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const location = useLocation();
   const nav = useNavigate();
 
   useEffect(() => {
     fetchCategories();
     fetchAllAccounts();
-    checkAccountFromLocalStorage();
+    checkAccountFromSessionStorage();
     if (location.state?.from) {
         setPreviousPath(location.state.from);
     };
@@ -42,7 +43,7 @@ const AddTransactions = () => {
             console.log(response.data.message);
             setAccounts(response.data.data.accounts);
         } catch (error) {
-            console.log(error.response?.data)
+            console.error(error.response?.data)
         }
     }
 
@@ -62,12 +63,12 @@ const AddTransactions = () => {
         } 
         catch (error) 
         {
-            console.log(error.response?.data);
+            console.error(error.response?.data);
         }
     }
 
-    const checkAccountFromLocalStorage = async() => {
-        const tempAccount = localStorage.getItem('account_id')
+    const checkAccountFromSessionStorage = async() => {
+        const tempAccount = sessionStorage.getItem('account_id')
         if (tempAccount) {
             setSelectedAccount(tempAccount);
         }
@@ -77,29 +78,32 @@ const AddTransactions = () => {
         e.preventDefault();
         try
         {
+            setButtonDisabled(true);
+            setMessage("Adding transaction...");
             const token = Cookies.get('token');
             const response = await axios.post('https://bread-finance-api.vercel.app/api/transaction', 
-            {
-                accountId: selectedAccount,
-                categoryId: selectedCategory,
-                description: description,
-                transactionType: transactionType,
-                amount: parseInt(transactionAmount)
-            },
-            {
-                'headers':
                 {
-                    'Authorization': 'Bearer ' + token
-                }, 
-            });
+                    accountId: selectedAccount,
+                    categoryId: selectedCategory,
+                    description: description,
+                    transactionType: transactionType,
+                    amount: parseInt(transactionAmount)
+                }, {
+                    'headers':
+                    {
+                        'Authorization': 'Bearer ' + token
+                    }, 
+                }
+            );
             console.log(response.data.message);
             setMessage(response.data.message);
             handlePageNavigation();
         }
         catch (error)
         {
-        console.log(error.response?.data.message);
-        setMessage(error.response?.data.message);
+            setButtonDisabled(false);
+            console.error(error.response?.data.message);
+            setMessage(error.response?.data.message);
         };
     }
 
@@ -169,7 +173,13 @@ const AddTransactions = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition-colors"
+                                className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                                    buttonDisabled
+                                    ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
+                                    : "bg-blue-500 hover:bg-blue-600"
+                                }`}
+                                id='submitButton'
+                                disabled={buttonDisabled}
                             >
                                 Add
                             </button>

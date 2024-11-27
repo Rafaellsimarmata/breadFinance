@@ -24,7 +24,7 @@ const Goals = () => {
             console.log(response.data.message);
             setGoals(response.data.data.goals);
         } catch (error) {
-            console.log(error.response?.message);
+            console.error(error.response?.message);
         }
     }
 
