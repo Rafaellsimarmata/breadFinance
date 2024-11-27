@@ -37,12 +37,19 @@ const userUpdateCategoryDb = (categoryId, categoryData) => {
 
 
 const userDeleteCategoryDb = (categoryId) => {
+    prisma.transaction.deleteMany({
+        where : {
+            categoryId : categoryId,
+        }
+    })
+
    return prisma.category.delete({
         where: {
             category_id: categoryId,
         }
-
     })
+
+
 }
 
 const getCategoryByCategoryIdDb = (categoryId) => {

@@ -78,9 +78,9 @@ router.put("/category/:accId",authenticateToken, async (req, res) => {
 
 })
 
-router.delete("/category/:accId",authenticateToken, async (req, res) => {
+router.delete("/category/:categoryId",authenticateToken, async (req, res) => {
   
-    const categoryId = req.params.accId;
+    const categoryId = req.params.categoryId;
 
     try {
         const categoryDataDelete = await userDeleteCategory(categoryId)
