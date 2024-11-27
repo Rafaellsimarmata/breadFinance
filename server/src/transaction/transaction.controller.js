@@ -53,7 +53,7 @@ router.get('/transactions', authenticateToken, async (req, res) => {
 })
 
 router.delete('/transaction/:transactionId', authenticateToken, async (req, res) => {
-    const transactionId = req.params.accId;
+    const transactionId = req.params.transactionId;
 
     try {
         const transactionDataDelete = await deleteUserTransaction(transactionId)
