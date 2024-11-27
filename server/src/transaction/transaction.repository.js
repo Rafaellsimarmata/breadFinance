@@ -36,7 +36,7 @@ const createUserTransactionsDb = async (userId, transactionData) => {
             account_id: transactionData.accountId,
           },
           data: {
-            balance: getCurrBalance - transactionData.amount,
+            balance: getCurrBalance.balance - transactionData.amount,
           },
     })
     
