@@ -11,6 +11,15 @@ const findTransactionsByUserIdDb = async (userId) => {
 }
 
 const createUserTransactionsDb = async (userId, transactionData) => {
+    const getCurrBalance = await prisma.account.findUnique({
+        where: {
+            account_id: transactionData.accountId,
+          },
+          select: {
+            balance: true,
+          },
+    })
+
     const transactionDataResult = await prisma.transaction.create({
         data : {
             userId,
@@ -20,6 +29,15 @@ const createUserTransactionsDb = async (userId, transactionData) => {
             description : transactionData.description,
             transaction_type : transactionData.transactionType,
         }
+    })
+
+    await prisma.account.update({
+        where: {
+            account_id: transactionData.accountId,
+          },
+          data: {
+            balance: getCurrBalance - transactionData.amount,
+          },
     })
     
     return transactionDataResult
