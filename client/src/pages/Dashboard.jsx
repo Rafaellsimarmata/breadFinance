@@ -167,7 +167,7 @@ const Dashboard = () => {
             <div className="col-span-3 flex flex-col gap-6">
 
             {/* Balance Section */}
-            <h1 className="text-4xl font-bold mt-2 mb-4 text-blue-900">My Dashboard</h1>
+            <h1 className="text-4xl font-bold mt-2 mb-4 text-pink-900">My Dashboard</h1>
             <div className="bg-blue-900 p-6 shadow-lg rounded-3xl text-white">
                 <div className="grid grid-cols-3 gap-6 mb-8">
                 <div>
@@ -187,7 +187,7 @@ const Dashboard = () => {
 
             {/* Statistics Section */}
             <div className="flex justify-between items-center mt-5">
-                <h2 className="text-2xl font-bold text-blue-900">Statistics</h2>
+                <h2 className="text-2xl font-bold text-pink-900">Statistics</h2>
                 <button
                 type="button"
                 onClick={() => nav("/transactions")}
@@ -213,7 +213,7 @@ const Dashboard = () => {
                 {/* Goals Section */}
                 <div className="col-span-2 text-white rounded-3xl p-6 flex flex-col gap-4">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold text-blue-900">Goals</h2>
+                        <h2 className="text-2xl font-bold text-pink-900">Goals</h2>
                         <button
                         onClick={() => nav("/goals")}
                         className="text-xs font-medium bg-blue-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-blue-200"
@@ -248,7 +248,7 @@ const Dashboard = () => {
                 {/* Other Savings */}
                 <div className="h-full mt-6">
                     <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold text-blue-900">Other Savings</h2>
+                        <h2 className="text-2xl font-bold text-pink-900">Other Savings</h2>
                         <button
                             onClick={() => nav("/accounts")}
                             className="text-xs font-medium bg-blue-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-blue-200"
@@ -294,7 +294,7 @@ const Dashboard = () => {
                     <div className="max-h-full overflow-y-auto">
                         <table className="w-full table-auto text-white">
                             <thead>
-                            <tr className="bg-gray-200 text-left">
+                            <tr className="bg-slate-800 text-left">
                                 <th className="px-4 py-2">Description</th>
                                 <th className="px-4 py-2">Type</th>
                                 <th className="px-4 py-2">Amount</th>

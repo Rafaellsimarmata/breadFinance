@@ -44,40 +44,40 @@ const AddGoal = () => {
 
   return (
     <>
-        <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300">
-            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
-                <h1 className="text-4xl font-bold mb-6">Add Goal</h1>
+        <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-blue-400">
+            <div className="w-full max-w-md p-8 bg-blue-900 rounded-3xl shadow-lg text-center">
+                <h1 className="text-4xl font-bold mb-6 text-white">Add Goal</h1>
 
                 {/* Display message */}
-                <p className="text-red-500 mb-4">{message}</p>
+                <p className="text-pink-600 mb-4">{message}</p>
 
                 {/* Form */}
                 <form onSubmit={newGoal} className="space-y-6" id='addGoal'>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='goalName'>Goal Name</label>
+                        <label className="block text-left text-white font-medium mb-2" id='goalName'>Goal Name</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                             placeholder="Goal Name"
                             value={goalName}
                             onChange={(e) => setGoalName(e.target.value)}
                         />
                     </div>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='goalDescription'>Goal Description</label>
+                        <label className="block text-left text-white font-medium mb-2" id='goalDescription'>Goal Description</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Goal Name"
+                            className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
+                            placeholder="Goal Description"
                             value={goalDescription}
                             onChange={(e) => setGoalDescription(e.target.value)}
                         />
                     </div>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='goalAmount'>Amount</label>
+                        <label className="block text-left text-white font-medium mb-2" id='goalAmount'>Amount</label>
                         <input
                             type="number"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                             placeholder="Amount"
                             value={goalAmount}
                             onChange={(e) => setGoalAmount(e.target.value)}
@@ -86,23 +86,23 @@ const AddGoal = () => {
                     <div>
                         <button
                             type="submit"
-                            className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                            className={`w-full text-white font-semibold py-2 rounded-3xl transition-colors ${
                                 buttonDisabled
-                                ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
-                                : "bg-blue-500 hover:bg-blue-600"
+                                ? "bg-blue-700 cursor-not-allowed"
+                                : "bg-pink-600 hover:bg-pink-700"
                             }`}
                             id='submitButton'
                             disabled={buttonDisabled}
                         >
                             Add
-                      </button>
-                  </div>
+                        </button>
+                    </div>
                 </form>
 
                 {/* Cancel Link */}
-                <p className="mt-4 text-gray-600">
+                <p className="mt-4 text-gray-300">
                     <span
-                        className="text-blue-500 hover:underline cursor-pointer"
+                        className="text-blue-300 hover:underline cursor-pointer"
                         onClick={() => nav("/goals")}
                     >
                         Cancel

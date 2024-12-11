@@ -44,7 +44,7 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-blue-400">
       <section className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <div>
               <h1 className="text-4xl font-bold text-center mb-4">Login</h1>

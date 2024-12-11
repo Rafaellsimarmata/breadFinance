@@ -44,16 +44,20 @@ const AddAccount = () => {
 
   return (
     <>
-        <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300">
-            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
-                <h1 className="text-4xl font-bold mb-6">Add Account</h1>
-                <p className="text-red-500 mb-4">{message}</p>
+        <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-blue-400">
+            <div className="w-full max-w-md p-8 bg-blue-900 rounded-3xl shadow-lg text-center">
+                <h1 className="text-4xl font-bold mb-6 text-white">Add Account</h1>
+
+                {/* Display message */}
+                <p className="text-pink-600 mb-4">{message}</p>
+
+                {/* Form */}
                 <form onSubmit={newAccount} className="space-y-6" id='addAccount'>
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='accountName'>Name</label>
+                        <label className="block text-left text-white font-medium mb-2" id='accountName'>Name</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                             placeholder="Name"
                             value={accountName}
                             onChange={(e) => setAccountName(e.target.value)}
@@ -61,10 +65,10 @@ const AddAccount = () => {
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='accountType'>Type</label>
+                        <label className="block text-left text-white font-medium mb-2" id='accountType'>Type</label>
                         <input
                             type="text"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                             placeholder="Type"
                             value={accountType}
                             onChange={(e) => setAccountType(e.target.value)}
@@ -72,10 +76,10 @@ const AddAccount = () => {
                     </div>
 
                     <div>
-                        <label className="block text-left text-gray-700 font-medium mb-2" id='accountBalance'>Balance</label>
+                        <label className="block text-left text-white font-medium mb-2" id='accountBalance'>Balance</label>
                         <input
                             type="number"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                             placeholder="Balance"
                             value={accountBalance}
                             onChange={(e) => setAccountBalance(e.target.value)}
@@ -85,10 +89,10 @@ const AddAccount = () => {
                     <div>
                         <button
                             type="submit"
-                            className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
-                            buttonDisabled
-                                ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
-                                : "bg-blue-500 hover:bg-blue-600"
+                            className={`w-full text-white font-semibold py-2 rounded-3xl transition-colors ${
+                                buttonDisabled
+                                    ? "bg-blue-700 cursor-not-allowed"
+                                    : "bg-pink-600 hover:bg-pink-700"
                             }`}
                             id='submitButton'
                             disabled={buttonDisabled}
@@ -98,9 +102,10 @@ const AddAccount = () => {
                     </div>
                 </form>
 
-                <p className="mt-4 text-gray-600">
+                {/* Cancel Link */}
+                <p className="mt-4 text-gray-300">
                     <span
-                        className="text-blue-500 hover:underline cursor-pointer"
+                        className="text-blue-300 hover:underline cursor-pointer"
                         onClick={() => nav("/accounts")}
                     >
                         Cancel
@@ -109,6 +114,7 @@ const AddAccount = () => {
             </div>
         </section>
     </>
+
   )
 }
 

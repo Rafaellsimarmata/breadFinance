@@ -109,17 +109,17 @@ const AddTransactions = () => {
 
     return (
         <>
-            <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300">
-                <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
-                    <h1 className="text-4xl font-bold mb-6">Add Transaction</h1>
-                    <p className="text-red-500 mb-4">{message}</p>
+            <section className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-blue-400">
+                <div className="w-full max-w-md p-8 bg-blue-900 rounded-3xl shadow-lg text-center">
+                    <h1 className="text-4xl font-bold mb-6 text-white">Add Transaction</h1>
+                    <p className="text-pink-600 mb-4">{message}</p>
 
                     <form onSubmit={newTransaction} className="space-y-6" id='addTransaction'>
                         <div>
-                            <label className="block text-left text-gray-700 font-medium mb-2" id='transactionDescription'>Description</label>
+                            <label className="block text-left text-white font-medium mb-2" id='transactionDescription'>Description</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                                 placeholder="Description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
@@ -127,43 +127,61 @@ const AddTransactions = () => {
                         </div>
 
                         <div>
-                            <label className="block text-left text-gray-700 font-medium mb-2" id='transactionAccount'>Account</label>
-                            <select className='block text-left text-gray-700 font-medium mb-2' value={selectedAccount} onChange={(e => {setSelectedAccount(e.target.value)})}>
-                                <option>- Please choose an account -</option>
-                                    {accounts.map((option) => (
-                                        <option key={option.account_id} value={option.account_id}>
-                                            {option.account_name}
-                                        </option>
-                                    ))}
+                            <label className="block text-left text-white font-medium mb-2" id='transactionAccount'>Account</label>
+                            <select 
+                                className='w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600'
+                                value={selectedAccount} 
+                                onChange={(e => {setSelectedAccount(e.target.value)})}
+                            >
+                                <option className="bg-blue-900 text-gray-300">- Please choose an account -</option>
+                                {accounts.map((option) => (
+                                    <option 
+                                        key={option.account_id} 
+                                        value={option.account_id}
+                                        className="bg-blue-900 text-white"
+                                    >
+                                        {option.account_name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
                         <div>
-                            <label className="block text-left text-gray-700 font-medium mb-2" id='transactionCategory'>Category</label>
-                            <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e => {setSelectedCategory(e.target.value)})}>
-                                <option>- Please choose a category -</option>
-                                    {categories.map((option) => (
-                                        <option key={option.category_id} value={option.category_id}>
-                                            {option.category_name}
-                                        </option>
-                                    ))}
+                            <label className="block text-left text-white font-medium mb-2" id='transactionCategory'>Category</label>
+                            <select 
+                                className='w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600'
+                                onChange={(e => {setSelectedCategory(e.target.value)})}
+                            >
+                                <option className="bg-blue-900 text-gray-300">- Please choose a category -</option>
+                                {categories.map((option) => (
+                                    <option 
+                                        key={option.category_id} 
+                                        value={option.category_id}
+                                        className="bg-blue-900 text-white"
+                                    >
+                                        {option.category_name}
+                                    </option>
+                                ))}
                             </select>
                         </div>
 
                         <div>
-                            <label className="block text-left text-gray-700 font-medium mb-2" id='transactionType'>Transaction Type</label>
-                            <select className='block text-left text-gray-700 font-medium mb-2' onChange={(e) => setTransactionType(e.target.value)}>
-                                <option>- Please choose a transaction type -</option>
-                                <option value="Inbound">Inbound</option>
-                                <option value="Outbound">Outbound</option>
+                            <label className="block text-left text-white font-medium mb-2" id='transactionType'>Transaction Type</label>
+                            <select 
+                                className='w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600'
+                                onChange={(e) => setTransactionType(e.target.value)}
+                            >
+                                <option className="bg-blue-900 text-gray-300">- Please choose a transaction type -</option>
+                                <option value="Inbound" className="bg-blue-900 text-white">Inbound</option>
+                                <option value="Outbound" className="bg-blue-900 text-white">Outbound</option>
                             </select>
                         </div>
 
                         <div>
-                            <label className="block text-left text-gray-700 font-medium mb-2" id='transactionId'>Amount</label>
+                            <label className="block text-left text-white font-medium mb-2" id='transactionId'>Amount</label>
                             <input
                                 type="number"
-                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                                 placeholder="Amount"
                                 value={transactionAmount}
                                 onChange={(e) => setTransactionAmount(e.target.value)}
@@ -173,10 +191,10 @@ const AddTransactions = () => {
                         <div>
                             <button
                                 type="submit"
-                                className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                                className={`w-full text-white font-semibold py-2 rounded-3xl transition-colors ${
                                     buttonDisabled
-                                    ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
-                                    : "bg-blue-500 hover:bg-blue-600"
+                                    ? "bg-blue-700 cursor-not-allowed"
+                                    : "bg-pink-600 hover:bg-pink-700"
                                 }`}
                                 id='submitButton'
                                 disabled={buttonDisabled}
@@ -186,9 +204,9 @@ const AddTransactions = () => {
                         </div>
                     </form>
 
-                    <p className="mt-4 text-gray-600">
+                    <p className="mt-4 text-gray-300">
                         <span
-                            className="text-blue-500 hover:underline cursor-pointer"
+                            className="text-blue-300 hover:underline cursor-pointer"
                             onClick={() => handlePageNavigation()}
                         >
                             Cancel
