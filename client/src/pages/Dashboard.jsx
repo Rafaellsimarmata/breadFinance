@@ -8,6 +8,7 @@ import DoughnutChart from "../components/Doughnut";
 
 const Dashboard = () => {
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [userTransaction, setUserTransaction] = useState([])
     const [categories, setCategories] = useState([]);
     const [isTransactionsLoading, setTransactionsLoading] = useState(true);
@@ -70,6 +71,7 @@ const Dashboard = () => {
             });
             console.log(response.data.message);
             setName(response.data.userData.userName);
+            setEmail(response.data.userData.email);
         } 
         catch (error) 
         {
@@ -150,231 +152,179 @@ const Dashboard = () => {
     console.log(isTransactionsLoading)
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-indigo-200 to-indigo-300 p-8">
-  
+    <div className="min-h-screen bg-gradient-to-r from-blue-200 to-blue-400 p-8">
         {/* Navbar */}
-        <nav className="bg-indigo-900 bg-opacity-90 rounded-3xl shadow-xl p-4 mb-8">
-          <div className="flex justify-between items-center">
+        <nav className="bg-blue-900 bg-opacity-90 rounded-3xl shadow-xl p-4 mb-8">
+            <div className="flex justify-between items-center">
             <h2 className="mx-5 mt-2 font-semibold text-base text-white">Welcome Back, {name}</h2>
-          </div>
+            </div>
         </nav>
-      
+
         {/* Grid Layout */}
         <div className="grid grid-cols-4 gap-6">
-          
+
             {/* Left Section (3/4 of the Width) */}
             <div className="col-span-3 flex flex-col gap-6">
-                
-                {/* Balance Section */}
-                <h1 className="text-4xl font-bold mt-2 mb-4 text-indigo-900">My Dashboard</h1>
-                <div className="bg-indigo-900 p-6 shadow-lg rounded-3xl text-white">
-                    <div className="grid grid-cols-3 gap-6 mb-8">
-                        <div>
-                            <h2 className="text-xl font-bold mb-2">Total Balance</h2>
-                            <p className="text-2xl font-bold text-gray-400">Rp15.234.500</p>
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold mb-2">Earnings</h2>
-                            <p className="text-2xl font-bold text-green-600">Rp5.091.000</p>
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold mb-2">Expenses</h2>
-                            <p className="text-2xl font-bold text-red-600">Rp3.500.120</p>
-                        </div>
-                    </div>
+
+            {/* Balance Section */}
+            <h1 className="text-4xl font-bold mt-2 mb-4 text-blue-900">My Dashboard</h1>
+            <div className="bg-blue-900 p-6 shadow-lg rounded-3xl text-white">
+                <div className="grid grid-cols-3 gap-6 mb-8">
+                <div>
+                    <h2 className="text-xl font-bold mb-2">Total Balance</h2>
+                    <p className="text-2xl font-bold text-gray-200">Rp15.234.500</p>
                 </div>
-        
-                {/* Statistics Section */}
-                <div className="flex justify-between items-center mt-5">
-                    <h2 className="text-2xl font-bold text-indigo-900">Statistics</h2>
-                        <button 
-                            type="button" 
-                            onClick={() => nav("/transactions")} 
-                            className="flex items-center space-x-1 px-2 py-1 border border-indigo-900 text-indigo-900 text-sm font-semibold rounded-full hover:bg-indigo-100 transition-colors"
-                            >
-                            <span>View Transaction</span>
-                            <span className="text-sm">→</span>
-                        </button>
+                <div>
+                    <h2 className="text-xl font-bold mb-2">Earnings</h2>
+                    <p className="text-2xl font-bold text-green-500">Rp5.091.000</p>
                 </div>
-                <div className="bg-indigo-900 rounded-3xl shadow-lg p-8">
-                <div className="flex justify-between mb-3 flex-col text-white">
-                    <h2 className="text-2xl font-bold mb-2">Contributor</h2>
-                    <p className="text-xs">
-                        Your earnings and expand statistics
-                    </p>
-                </div>
-                <div className="flex space-x-4 text-white">
-                    <DoughnutChart chartData={inBoundChartData} title={"Income Flow"} />
-                    <DoughnutChart chartData={outBoundChartData} title={"Outcome Flow"} />
+                <div>
+                    <h2 className="text-xl font-bold mb-2">Expenses</h2>
+                    <p className="text-2xl font-bold text-pink-700">Rp3.500.120</p>
                 </div>
                 </div>
-        
-                {/* Goals and Other Savings */}
-                    <div className="grid grid-cols-3 gap-6">
-                    {/* Goals Section */}
-                    <div className="col-span-2 text-white rounded-3xl p-6 flex flex-col gap-4">
-                        <div className="flex justify-between items-center">
-                        <h2 className="text-2xl font-bold text-indigo-900">Goals</h2>
+            </div>
+
+            {/* Statistics Section */}
+            <div className="flex justify-between items-center mt-5">
+                <h2 className="text-2xl font-bold text-blue-900">Statistics</h2>
+                <button
+                type="button"
+                onClick={() => nav("/transactions")}
+                className="flex items-center space-x-1 px-2 py-1 border border-blue-900 text-blue-900 text-sm font-semibold rounded-full hover:bg-blue-200 transition-colors"
+                >
+                    <span>View Transaction</span>
+                    <span className="text-sm">→</span>
+                </button>
+            </div>
+
+            <div className="bg-blue-900 rounded-3xl shadow-lg p-8 text-white">
+                <h2 className="text-2xl font-bold mb-2">Contributor</h2>
+                <p className="text-xs mb-4">Your earnings and expand statistics</p>
+                <div className="flex space-x-4">
+                <DoughnutChart chartData={inBoundChartData} title={"Income Flow"} />
+                <DoughnutChart chartData={outBoundChartData} title={"Outcome Flow"} />
+                </div>
+            </div>
+
+            {/* Goals and Other Savings */}
+            <div className="grid grid-cols-3 gap-2">
+
+                {/* Goals Section */}
+                <div className="col-span-2 text-white rounded-3xl p-6 flex flex-col gap-4">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-bold text-blue-900">Goals</h2>
                         <button
-                            onClick={() => nav("/goals")}
-                            className="text-xs font-medium bg-indigo-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-gray-100"
+                        onClick={() => nav("/goals")}
+                        className="text-xs font-medium bg-blue-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-blue-200"
                         >
-                            Add Goals
+                        Add Goals
                         </button>
-                        </div>
-                        <div className="grid grid-cols-2 gap-6 h-full">
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 h-full">
                         {/* Goal 1 */}
-                        <div className="bg-indigo-900 shadow-lg rounded-3xl p-4 flex flex-col justify-between h-full">
-                            <h2 className="text-4xl font-bold">82%</h2>
-                            <div className="relative mt-2">
-                            <div className="w-full h-2 bg-indigo-900 rounded-full"></div>
-                            <div
-                                className="absolute top-0 left-0 h-2 bg-orange-500 rounded-full"
-                                style={{ width: "82%" }}
-                            ></div>
-                            </div>
-                            <p className="mt-4 text-lg font-medium">New Phone</p>
+                        <div className="bg-blue-900 shadow-lg rounded-3xl p-4">
+                        <h2 className="text-4xl font-bold">82%</h2>
+                        <div className="relative mt-2">
+                            <div className="w-full h-2 bg-blue-700 rounded-full"></div>
+                            <div className="absolute top-0 left-0 h-2 bg-pink-600 rounded-full" style={{ width: "82%" }}></div>
+                        </div>
+                        <p className="mt-4 text-lg font-medium">New Phone</p>
                         </div>
 
                         {/* Goal 2 */}
-                        <div className="bg-indigo-900 shadow-lg rounded-3xl p-4 flex flex-col justify-between h-full">
-                            <h2 className="text-4xl font-bold">39%</h2>
-                            <div className="relative mt-2">
-                            <div className="w-full h-2 bg-indigo-900 rounded-full"></div>
-                            <div
-                                className="absolute top-0 left-0 h-2 bg-orange-500 rounded-full"
-                                style={{ width: "39%" }}
-                            ></div>
-                            </div>
-                            <p className="mt-4 text-lg font-medium">Duolingo Test</p>
+                        <div className="bg-blue-900 shadow-lg rounded-3xl p-4">
+                        <h2 className="text-4xl font-bold">39%</h2>
+                        <div className="relative mt-2">
+                            <div className="w-full h-2 bg-blue-700 rounded-full"></div>
+                            <div className="absolute top-0 left-0 h-2 bg-pink-600 rounded-full" style={{ width: "39%" }}></div>
                         </div>
+                        <p className="mt-4 text-lg font-medium">Duolingo Test</p>
                         </div>
                     </div>
+                </div>
 
-                    {/* Other Savings */}
-                    <div className="bg-indigo-900 text-white shadow-lg rounded-3xl p-6 flex flex-col justify-between">
-                        <h2 className="text-2xl font-bold mb-2">Other Savings</h2>
+                {/* Other Savings */}
+                <div className="h-full mt-6">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-2xl font-bold text-blue-900">Other Savings</h2>
+                        <button
+                            onClick={() => nav("/accounts")}
+                            className="text-xs font-medium bg-blue-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-blue-200"
+                            >
+                            View Others
+                            </button>
+                    </div>
+                    <div className="bg-blue-900 text-white shadow-lg rounded-3xl p-6 mt-5">
                         <p className="text-lg">
-                        Total Expense:
-                        <span className="block text-green-400 text-2xl font-bold">
-                            Rp133.540.000
-                        </span>
+                            Total Expense:
+                            <span className="block text-pink-600 text-2xl font-bold">Rp133.540.000</span>
                         </p>
-                        <p className="text-xs text-gray-300 mt-2">
-                        Profit is 48% More than last Month
-                        </p>
-                        <div className="relative flex justify-center mt-4">
-                        <svg className="w-32 h-32">
-                            <circle
-                            cx="50%"
-                            cy="50%"
-                            r="45%"
-                            stroke="#4B5563"
-                            strokeWidth="8"
-                            fill="transparent"
-                            />
-                            <circle
-                            cx="50%"
-                            cy="50%"
-                            r="45%"
-                            stroke="#F97316"
-                            strokeWidth="8"
-                            fill="transparent"
-                            strokeDasharray="251.2"
-                            strokeDashoffset="50"
-                            transform="rotate(-90, 50, 50)"
-                            />
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <h2 className="text-3xl font-bold">80%</h2>
-                        </div>
-                        </div>
+                        <p className="text-xs text-gray-300 mt-2">Profit is 48% More than last Month</p>
                     </div>
-                    </div>
-
-
-        
+                </div>
             </div>
-      
-          {/* Right Section (1/4 of the Width) */}
-<div className="flex flex-col gap-6 h-full">
-  {/* Profile Panel */}
-  <div className="bg-indigo-900 text-white p-6 rounded-3xl flex justify-center flex-[3]">
-    <div className="text-center">
-      <img
-        src={""}
-        alt="Profile"
-        className="w-24 h-24 rounded-full border border-gray-300 mx-auto mt-32"
-      />
-      <h2 className="text-2xl font-bold mt-7">{name}</h2>
-            <div className="items-center mt-20">
-                <button 
-                    type="button" 
-                    onClick={() => nav("/profile")} 
-                    className="flex items-center space-x-1 px-2 py-1 border border-white text-white text-sm font-semibold rounded-full hover:bg-indigo-100 transition-colors"
-                    >
-                    <span>Profile</span>
-                    <span className="text-sm">→</span>
-                </button>
+            </div>
 
+            {/* Right Section (1/4 of the Width) */}
+            <div className="flex flex-col gap-6 h-full columns-3">
 
-                <button 
-                    type="button" 
-                    onClick={() => nav("/logout")} 
-                    className="flex items-center space-x-1 px-2 py-1 border border-white text-white text-sm font-semibold rounded-full hover:bg-indigo-100 transition-colors mt-4"
-                    >
-                    <span>Log Out</span>
-                    <span className="text-sm">→</span>
+                {/* Profile Panel */}
+                <div className="bg-blue-900 text-white p-6 rounded-3xl basis-2/3">
+                    <div className="text-center">
+                        <img src={""} alt="Profile" className="w-24 h-24 rounded-full border mx-auto mt-36" />
+                        <h2 className="text-sm font-semibold mt-2"> {email}</h2>
+                        <h2 className="text-2xl font-bold mt-6">{name}</h2>
+                        <button
+                        type="button"
+                        onClick={() => nav("/Profile")}
+                        className="flex items-center space-x-1 px-2 py-1 border border-white text-white text-sm font-semibold rounded-full hover:bg-blue-200 transition-colors mx-auto mt-7"
+                        >
+                            <span>View Profile</span>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Transaction List */}
+                <div className="bg-blue-900 rounded-3xl shadow-lg p-6 basis-1/3">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-white text-xl font-bold">Transaction List</h2>
+                    </div>
+                    <div className="max-h-full overflow-y-auto">
+                        <table className="w-full table-auto text-white">
+                            <thead>
+                            <tr className="bg-gray-200 text-left">
+                                <th className="px-4 py-2">Description</th>
+                                <th className="px-4 py-2">Type</th>
+                                <th className="px-4 py-2">Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {filteredTransactions.map((transaction) => (
+                                <tr
+                                key={transaction.transaction_id}
+                                className="border-t"
+                                >
+                                <td className="px-4 py-2">{transaction.description}</td>
+                                <td className="px-4 py-2">{transaction.transaction_type}</td>
+                                <td className="px-4 py-2">{transaction.amount}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <button type="button"
+                    onClick={() => nav("/transactions")}className="bg-blue-900 rounded-3xl shadow-lg p-4 flex flex-row justify-between hover:bg-blue-200 transition-colors">
+                    <h2 className="text-white text-lg">See all transaction</h2>
+                    <div className="border border-white text-white text-sm font-semibold rounded-md mt-1">    
+                        <span className="text-sm p-3 mx-0 my-0">→</span>
+                    </div>    
                 </button>
             </div>
-    </div>
-  </div>
-
-  {/* Transaction List */}
-  <div className="bg-indigo-900 rounded-3xl shadow-lg p-6 flex-[1]">
-    <div className="flex justify-between items-center mb-4">
-      <h2 className="text-white text-xl font-bold">Transaction List</h2>
-      <button
-        type="button"
-        onClick={() => nav("/transactions")}
-        className="flex items-center space-x-1 px-2 py-1 border border-white text-white text-sm font-semibold rounded-full hover:bg-indigo-100 transition-colors"
-      >
-        <span>View More</span>
-        <span className="text-sm text-white">→</span>
-      </button>
-    </div>
-
-    <div className="max-h-full overflow-y-auto">
-      <table className="w-full table-auto text-white">
-        <thead>
-          <tr className="bg-gray-200 text-left">
-            <th className="px-4 py-2">Description</th>
-            <th className="px-4 py-2">Type</th>
-            <th className="px-4 py-2">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTransactions.map((transaction) => (
-            <tr
-              key={transaction.transaction_id}
-              className="border-t"
-            >
-              <td className="px-4 py-2">{transaction.description}</td>
-              <td className="px-4 py-2">{transaction.transaction_type}</td>
-              <td className="px-4 py-2">{transaction.amount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-      
         </div>
-      
-      </div>
-      
+    </div>
     )
 }
 
@@ -382,28 +332,28 @@ const Dashboard = () => {
                         <button 
                             type="button" 
                             onClick={() => nav("/accounts")} 
-                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-200 transition-colors w-48"
                         >
                             View Accounts
                         </button>
                         <button 
                             type="button" 
                             onClick={() => nav("/transactions")} 
-                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-200 transition-colors w-48"
                         >   
                             View Transactions
                         </button>
                         <button 
                             type="button" 
                             onClick={() => nav("/categories")} 
-                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-200 transition-colors w-48"
                         >   
                             View Categories
                         </button>
                         <button 
                             type="button" 
                             onClick={() => nav("/goals")} 
-                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition-colors w-48"
+                            className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-200 transition-colors w-48"
                         >   
                             View Goals
                         </button>
