@@ -45,61 +45,60 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 to-blue-400">
-      <section className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+      <section className="w-full max-w-md p-8 bg-blue-900 rounded-3xl shadow-lg text-center">
           <div>
-              <h1 className="text-4xl font-bold text-center mb-4">Login</h1>
-              <p className="text-center text-red-500">{message}</p>
+              <h1 className="text-4xl font-bold mb-6 text-white">Login</h1>
+              <p className="text-pink-600 mb-4">{message}</p>
               <form onSubmit={sendLogin} className="space-y-6">
                   <div>
-                      <label className="block text-gray-700 font-medium mb-2">Email</label>
+                      <label className="block text-left text-white font-medium mb-2">Email</label>
                       <input
                           type="text"
-                          className="w-full px-4 py-2 border bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                           placeholder="Email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                       />
                   </div>
                   <div>
-                      <label className="block text-gray-700 font-medium mb-2">Password</label>
+                      <label className="block text-left text-white font-medium mb-2">Password</label>
                       <input
                           type="password"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-4 py-2 border border-blue-700 rounded-3xl bg-blue-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-600 placeholder-gray-400"
                           placeholder="********"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                       />
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex items-center mb-4">
                     <input
                       type="checkbox"
                       id="rememberMe"
-                      className="mr-2"
+                      className="mr-2 text-pink-600 bg-blue-800 border-blue-700 rounded focus:ring-pink-600"
                       onChange={(e) => setRememberMe(e.target.checked)}
                     />
-                    <label htmlFor="rememberMe" className="text-gray-700">
+                    <label htmlFor="rememberMe" className="text-gray-300">
                       Remember Me
                     </label>
                   </div>
                   <div>
                       <button
                         type="submit"
-                        className={`w-full text-white font-semibold py-2 rounded-md transition-colors ${
+                        className={`w-full text-white font-semibold py-2 rounded-3xl transition-colors ${
                           buttonDisabled
-                            ? "bg-gray-500 cursor-not-allowed hover:bg-gray-600"
-                            : "bg-blue-500 hover:bg-blue-600"
+                            ? "bg-blue-700 cursor-not-allowed"
+                            : "bg-pink-600 hover:bg-pink-700"
                         }`}
-                        id='submitButton'
                         disabled={buttonDisabled}
                       >
                         Login
                       </button>
                   </div>
               </form>
-              <p className="mt-4 text-center text-gray-600">
+              <p className="mt-4 text-gray-300">
                   Don&apos;t have account yet?{" "}
                   <span
-                      className="text-blue-500 hover:underline cursor-pointer"
+                      className="text-blue-300 hover:underline cursor-pointer"
                       onClick={() => nav("/register")}
                   >
                       Click here
