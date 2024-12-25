@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -10,6 +10,13 @@ const Login = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [message, setMessage] = useState('');
   const nav = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      nav('/dashboard'); // Redirect to the dashboard
+    }
+  }, [nav]);
 
   const sendLogin = async(e) => {
     e.preventDefault();

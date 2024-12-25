@@ -9,6 +9,7 @@ const Transactions = () => {
     const [query, setQuery] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState('')
     const [showFilterPopup, setShowFilterPopup] = useState(false);
     const [selectedFilter, setSelectedFilter] = useState('createdAt');
     const [displaySelectedFilter, setDisplaySelectedFilter] = useState('');
@@ -93,6 +94,13 @@ const Transactions = () => {
 
             const matchesAccount = !selectedAccountId || item.accountId === selectedAccountId;
 
+            const matchesSelectedDate = selectedDate
+                ? new Date(item.createdAt).toDateString() === new Date(selectedDate).toDateString()
+                : true;
+                if (selectedDate) {
+                    setDisplaySelectedFilter("Date: " + selectedDate)
+                }
+
             const matchesDateRange = 
                 (!start && !end) || // No date filter applied
                 (start && end && itemDate >= start && itemDate <= end) || // Normal date range
@@ -109,7 +117,7 @@ const Transactions = () => {
                     setDisplaySelectedFilter("Amount: " + minAmount + " - " + maxAmount);
                 }
 
-            return matchesQuery && matchesDateRange && matchesTransactionType && matchesAmountRange && matchesAccount;
+            return matchesQuery && matchesDateRange && matchesTransactionType && matchesAmountRange && matchesAccount && matchesSelectedDate;
         });
 
         const sortedTransactions = filteredTransactions.sort((a, b) => {
@@ -127,7 +135,7 @@ const Transactions = () => {
             return 0;
         });
         setFilteredTransactions(sortedTransactions);
-    }, [query, transactions, startDate, endDate, selectedFilter, isAscending, transactionType, minAmount, maxAmount, selectedAccountId]);
+    }, [query, transactions, startDate, endDate, selectedFilter, isAscending, transactionType, minAmount, maxAmount, selectedAccountId, selectedDate]);
 
     const toggleFilterPopup = () => {
         setShowFilterPopup(!showFilterPopup);
@@ -143,7 +151,7 @@ const Transactions = () => {
             setShowFilterPopup(false);
         }
         else {
-            setDisplaySelectedFilter('None');
+            setDisplaySelectedFilter("Select a filter");
             resetFilters();
         }
     };
@@ -154,6 +162,7 @@ const Transactions = () => {
         setTransactionType(type);
         setDisplaySelectedFilter("Transaction Type: " + type);
         setShowFilterPopup(false);
+        getTotalBalance();
     };
 
     const filterByAccountId = (account_id) => {
@@ -180,6 +189,7 @@ const Transactions = () => {
         setMinAmount('');
         setMaxAmount('');
         setSelectedAccountId('');
+        setSelectedDate('');
     }
 
     const checkAccountFromSessionStorage = async() => {
@@ -203,7 +213,20 @@ const Transactions = () => {
         }, 0);
     };
 
-    
+    const getTotalAmount = () => {
+        return filteredTransactions.reduce((sum, transactions) => {
+            if (transactions.transaction_type === 'Inbound') {
+              return sum + (transactions.amount || 0);
+            } 
+            else if (transactions.transaction_type === 'Outbound') {
+              return sum - (transactions.amount || 0);
+            } 
+            else {
+              return sum;
+            }
+          }, 0);
+    }
+
     return (
         <>
             {showFilterPopup && (
@@ -244,7 +267,7 @@ const Transactions = () => {
 
                         {selectedFilter === 'account_id' && (
                             <div className="mt-4">
-                                <select value={selectedAccountId} onChange={(e) => {filterByAccountId(e.target.value), localStorage.setItem('account_id', e.target.value)}}>
+                                <select value={selectedAccountId} onChange={(e) => {filterByAccountId(e.target.value)}} className="text-black">
                                     <option>- Select an account -</option>
                                         {accounts.map(account => (
                                             <option key={account.account_id} value={account.account_id}>
@@ -276,10 +299,31 @@ const Transactions = () => {
                         )}
 
                         <button
+                            onClick={() => applyFilter('specificDate')}
+                            className="w-full py-2 text-left hover:bg-gray-100 hover:text-gray-800 rounded-md px-3"
+                        >
+                            Specific Date
+                        </button>
+
+                        {selectedFilter === 'specificDate' && (
+                        <div className="mt-4">
+                            <label className="block mb-2">
+                                Select Date:
+                                <input 
+                                    type="date" 
+                                    value={selectedDate} 
+                                    onChange={(e) => setSelectedDate(e.target.value)} 
+                                    className="block w-full mt-1 border rounded-md p-2 text-black"
+                                />
+                            </label>
+                        </div>
+                        )}
+
+                        <button
                             onClick={() => applyFilter('date')}
                             className="w-full py-2 text-left hover:bg-gray-100 hover:text-gray-800 rounded-md px-3"
                         >
-                            Date
+                            Date Range
                         </button>
 
                         {selectedFilter === 'date' && (
@@ -290,7 +334,7 @@ const Transactions = () => {
                                     type="date" 
                                     value={startDate} 
                                     onChange={(e) => setStartDate(e.target.value)} 
-                                    className="block w-full mt-1 border rounded-md p-2"
+                                    className="block w-full mt-1 border rounded-md p-2 text-black"
                                 />
                             </label>
                             <label className="block mb-2">
@@ -299,7 +343,7 @@ const Transactions = () => {
                                     type="date" 
                                     value={endDate} 
                                     onChange={(e) => setEndDate(e.target.value)} 
-                                    className="block w-full mt-1 border rounded-md p-2"
+                                    className="block w-full mt-1 border rounded-md p-2 text-black"
                                 />
                             </label>
                         </div>
@@ -323,6 +367,10 @@ const Transactions = () => {
                             <div className="flex flex-col balance-info mb-4 ml-4">
                                 <p className="text-white">Total Balance</p>
                                 <h2 className="text-green-400 text-2xl font-semibold">IDR {getTotalBalance()}</h2>
+                            </div>
+                            <div className="flex flex-col balance-info mb-4 ml-4">
+                                <p className="text-white">Total Amount currently on screen</p>
+                                <h3 className="text-green-400 text-xl font-semibold">IDR {getTotalAmount()}</h3>
                             </div>
                         </header>
                     </div>
@@ -394,12 +442,6 @@ const Transactions = () => {
                                         <td className="px-4 py-2">
                                             <button 
                                                 type="button" 
-                                                className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
-                                            >
-                                                Details
-                                            </button>
-                                            <button 
-                                                type="button" 
                                                 className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
                                                 onClick={() => {
                                                     setTransactionToDelete(transactions.transaction_id),
@@ -418,7 +460,7 @@ const Transactions = () => {
                         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
                             <div className="bg-white rounded-lg p-6 w-96">
                                 <h3 className="text-lg font-bold mb-4">Confirm Deletion</h3>
-                                <p>Are you sure you want to delete transaction: {transactionToDeleteName}</p>
+                                <p>Are you sure you want to delete transaction: <span className="font-semibold">{transactionToDeleteName}</span>?</p>
                                 <div className="mt-4 flex justify-end space-x-4">
                                     <button
                                         onClick={() => deleteTransaction(transactionToDelete)}

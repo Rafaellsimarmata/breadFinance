@@ -99,13 +99,6 @@ const Goals = () => {
                                 <td className="px-4 py-2">{goal.description}</td>
                                 <td className="px-4 py-2">{goal.amount}</td>
                                 <td className="px-4 py-2">
-                                    <button 
-                                        type="button" 
-                                        className="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors mr-2"
-                                        onClick={() => {}}
-                                    >
-                                        Details
-                                    </button>
                                     <button  
                                         type="button" 
                                         className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"

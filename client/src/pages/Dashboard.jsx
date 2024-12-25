@@ -193,7 +193,7 @@ const Dashboard = () => {
                 onClick={() => nav("/transactions")}
                 className="flex items-center space-x-1 px-2 py-1 border border-blue-900 text-blue-900 text-sm font-semibold rounded-full hover:bg-blue-200 transition-colors"
                 >
-                    <span>View Transaction</span>
+                    <span>View Transactions</span>
                     <span className="text-sm">→</span>
                 </button>
             </div>
@@ -218,7 +218,7 @@ const Dashboard = () => {
                         onClick={() => nav("/goals")}
                         className="text-xs font-medium bg-blue-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-blue-200"
                         >
-                        Add Goals
+                        Add Goal
                         </button>
                     </div>
 
@@ -253,7 +253,7 @@ const Dashboard = () => {
                             onClick={() => nav("/accounts")}
                             className="text-xs font-medium bg-blue-900 text-white px-2 py-1 rounded-full shadow-sm hover:bg-blue-200"
                             >
-                            View Others
+                            View Accounts
                             </button>
                     </div>
                     <div className="bg-blue-900 text-white shadow-lg rounded-3xl p-6 mt-5">
@@ -317,7 +317,7 @@ const Dashboard = () => {
                 </div>
                 <button type="button"
                     onClick={() => nav("/transactions")}className="bg-blue-900 rounded-3xl shadow-lg p-4 flex flex-row justify-between hover:bg-blue-200 transition-colors">
-                    <h2 className="text-white text-lg">See all transaction</h2>
+                    <h2 className="text-white text-lg">See all transactions</h2>
                     <div className="border border-white text-white text-sm font-semibold rounded-md mt-1">    
                         <span className="text-sm p-3 mx-0 my-0">→</span>
                     </div>    
