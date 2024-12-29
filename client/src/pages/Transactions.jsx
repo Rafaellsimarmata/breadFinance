@@ -289,11 +289,11 @@ const Transactions = () => {
                             <div className="mt-4">
                                 <label className="block mb-2">
                                     Minimum Amount:
-                                    <input type="number" placeholder="Minimum" value={minAmount} onChange={(e) => setMinAmount(e.target.value)} className="block w-full mt-1 border rounded-md p-2" />
+                                    <input type="number" placeholder="Minimum" value={minAmount} onChange={(e) => setMinAmount(e.target.value)} className="block w-full mt-1 border rounded-md p-2 text-black" />
                                 </label>
                                 <label className="block mb-2">
                                     Maximum Amount:
-                                    <input type="number" placeholder="Maximum" value={maxAmount} onChange={(e) => setMaxAmount(e.target.value)} className="block w-full mt-1 border rounded-md p-2" />
+                                    <input type="number" placeholder="Maximum" value={maxAmount} onChange={(e) => setMaxAmount(e.target.value)} className="block w-full mt-1 border rounded-md p-2 text-black" />
                                 </label>
                             </div>
                         )}
